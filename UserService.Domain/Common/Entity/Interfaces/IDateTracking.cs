@@ -1,4 +1,4 @@
-﻿namespace UserService.Domain.Common.Interfaces;
+﻿namespace UserService.Domain.Common.Entity.Interfaces;
 
 public interface IDateTracking
 {

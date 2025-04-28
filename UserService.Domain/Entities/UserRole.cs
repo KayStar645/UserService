@@ -1,4 +1,4 @@
-﻿using UserService.Domain.Common;
+﻿using UserService.Domain.Common.Entity;
 
 namespace UserService.Domain.Entities;
 

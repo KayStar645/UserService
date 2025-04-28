@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using UserService.Domain.Common.Entity.Interfaces;
 using UserService.Domain.Common.Interfaces;
-using Microsoft.AspNetCore.Http;
 using UserService.Infrastructure.Constants;
 
 namespace UserService.Infrastructure.Interceptors;
@@ -43,13 +44,17 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
                 string staffCode = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == CONSTANT_CLAIM_TYPES.STAFF)?.Value ?? string.Empty;
                 if (entry.State == EntityState.Added)
                 {
-                    auditableEntity.CreatedAt = DateTime.UtcNow;
+                    if(entry.Entity is IBaseEntity<Guid> entity)
+                    {
+                       entity.Id = Guid.NewGuid();
+                    }    
+                    auditableEntity.CreatedAt = DateTimeOffset.UtcNow;
                     auditableEntity.CreatedByUser = userName;
                     auditableEntity.CreatedByCode = staffCode;
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    auditableEntity.LastModifiedAt = DateTime.UtcNow;
+                    auditableEntity.LastModifiedAt = DateTimeOffset.UtcNow;
                     auditableEntity.ModifiedByUser = userName;
                     auditableEntity.ModifiedByCode = staffCode;
                 }

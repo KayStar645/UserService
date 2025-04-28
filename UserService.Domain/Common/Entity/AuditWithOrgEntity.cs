@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using UserService.Domain.Common.Entity.Interfaces;
 using UserService.Domain.Common.Interfaces;
 using UserService.Domain.Enums;
 
-namespace UserService.Domain.Common;
+namespace UserService.Domain.Common.Entity;
 
-public abstract record EntityAuditWithOrg<TKey> : EntityAuditBase<TKey>
+public abstract record AuditWithOrgEntity<TKey> : AuditBaseEntity<TKey>
 {
     [Column(TypeName = "VARCHAR(36)")]
     public string? CompanyId { get; set; }
@@ -13,17 +14,17 @@ public abstract record EntityAuditWithOrg<TKey> : EntityAuditBase<TKey>
     public string? BranchId { get; set; }
 }
 
-public abstract record EntityAuditWithOrgDetail<TKey> : EntityAuditWithOrg<TKey>
+public abstract record EntityAuditWithOrgDetail<TKey> : AuditWithOrgEntity<TKey>
 {
     public bool IsRemoved { get; set; } = false;
 }
 
-public abstract record EntityAuditWithOrgMasterData<TKey> : EntityAuditWithOrg<TKey>, IActivatable
+public abstract record EntityAuditWithOrgMasterData<TKey> : AuditWithOrgEntity<TKey>, IActivatable
 {
     public bool IsActive { get; set; } = true;
 }
 
-public abstract record EntityAuditWithOrgDocument<TKey> : EntityAuditWithOrg<TKey>
+public abstract record EntityAuditWithOrgDocument<TKey> : AuditWithOrgEntity<TKey>
 {
     public EStatus Status { get; set; } = EStatus.Draft;
 }

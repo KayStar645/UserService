@@ -1,9 +1,8 @@
-﻿using UserService.Domain.Common.Entity;
-using UserService.Domain.Enums;
+﻿using UserService.Domain.Enums;
 
-namespace UserService.Domain.Entities;
+namespace UserService.Application.DTOs;
 
-public record User : EntityAuditWithOrgMasterData<Guid>
+public record UserDto
 {
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }
@@ -16,6 +15,6 @@ public record User : EntityAuditWithOrgMasterData<Guid>
     public DateTimeOffset? DateOfBirth { get; set; }
     public EGender? Gender { get; set; }
 
-    public virtual required ICollection<Role> Roles { get; set; }
-    public virtual required ICollection<Permission> Permissions { get; set; }
+    public required ICollection<RoleDto> Roles { get; set; }
+    public required ICollection<PermissionDto> Permissions { get; set; }
 }

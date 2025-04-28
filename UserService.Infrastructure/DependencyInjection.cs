@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserService.Domain.Entities;
 using UserService.Infrastructure.Interceptors;
+using UserService.Infrastructure.Repositories;
+using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Infrastructure;
 
@@ -24,8 +26,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<UserDbContextInitializer>();
-        //services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-        //services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+        services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 
         return services;
     }
