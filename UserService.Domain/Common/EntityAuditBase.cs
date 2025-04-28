@@ -16,8 +16,8 @@ public abstract record EntityAuditBase<TKey> : EntityBase<TKey>, IAuditable
     public string? CreatedByUser { get; set; }
     [Column(TypeName = "VARCHAR(36)")]
     public string? ModifiedByUser { get; set; }
-    public DateTimeOffset? CreatedDate { get; set; }
-    public DateTimeOffset? LastModifiedDate { get; set; }
+    public DateTimeOffset? CreatedAt { get; set; }
+    public DateTimeOffset? LastModifiedAt { get; set; }
 }
 
 public abstract record EntityDetailAudit<TKey> : EntityAuditBase<TKey>, ISoftDelete

@@ -2,9 +2,9 @@
 
 namespace UserService.Domain.Common.Interfaces;
 
-public interface IEntityBase<T>
+public interface IEntityBase<TKey>
 {
-    T Id { get; set; }
+    TKey? Id { get; set; }
 }
 
 public interface IActivatable

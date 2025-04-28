@@ -4,5 +4,5 @@ namespace UserService.Domain.Common;
 
 public abstract record EntityBase<TKey> : IEntityBase<TKey>
 {
-    public TKey Id { get; set; }
+    public TKey? Id { get; set; }
 }
