@@ -1,6 +1,8 @@
-﻿namespace UserService.Application.DTOs;
+﻿using UserService.Domain.Common.DTO;
 
-public record PermissionDto
+namespace UserService.Application.DTOs;
+
+public record PermissionDto : SoftDeleteBaseWithOrgDto<Guid>
 {
     public string? Code { get; set; }
     public string? Name { get; set; }

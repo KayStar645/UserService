@@ -96,7 +96,7 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
         var entity = await _unitOfWork.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
         if (entity == null)
-            throw new NotFoundException("Id", request.Id.ToString());
+            throw new NotFoundException("Id", request?.Id?.ToString() ?? string.Empty);
 
         _unitOfWork.Set<TEntity>().Remove(entity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

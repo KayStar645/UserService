@@ -2,6 +2,6 @@
 
 public interface IOrganizationScope
 {
-    string CompanyId { get; set; }
-    string BranchId { get; set; }
+    string? CompanyId { get; set; }
+    string? BranchId { get; set; }
 }

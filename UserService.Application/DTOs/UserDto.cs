@@ -1,8 +1,9 @@
-﻿using UserService.Domain.Enums;
+﻿using UserService.Domain.Common.DTO;
+using UserService.Domain.Enums;
 
 namespace UserService.Application.DTOs;
 
-public record UserDto
+public record UserDto : SoftDeleteBaseWithOrgDto<Guid>
 {
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }
@@ -15,6 +16,6 @@ public record UserDto
     public DateTimeOffset? DateOfBirth { get; set; }
     public EGender? Gender { get; set; }
 
-    public required ICollection<RoleDto> Roles { get; set; }
-    public required ICollection<PermissionDto> Permissions { get; set; }
+    public required IEnumerable<RoleDto> Roles { get; set; }
+    public required IEnumerable<PermissionDto> Permissions { get; set; }
 }

@@ -1,7 +1,11 @@
-﻿namespace UserService.Application.DTOs;
+﻿using UserService.Domain.Common.DTO;
 
-public class RoleDto
+namespace UserService.Application.DTOs;
+
+public record RoleDto : SoftDeleteBaseWithOrgDto<Guid>
 {
     public string? Code { get; set; }
     public string? Name { get; set; }
+
+    public required IEnumerable<PermissionDto> Permissions { get; set; }
 }

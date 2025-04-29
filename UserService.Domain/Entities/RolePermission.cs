@@ -2,10 +2,10 @@
 
 namespace UserService.Domain.Entities;
 
-public record RolePermission : EntityDetailAudit<Guid>
+public record RolePermission : SoftDeleteAuditEntity<Guid>
 {
-    public required string RoleId { get; set; }
-    public required string PermissionId { get; set; }
+    public required Guid RoleId { get; set; }
+    public required Guid PermissionId { get; set; }
 
     public virtual required Role Role { get; set; }
     public virtual required Permission Permission { get; set; }

@@ -49,7 +49,7 @@ namespace UserService.Infrastructure.Migrations
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("VARCHAR(36)");
 
-                    b.Property<bool>("IsRemoved")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
@@ -164,27 +164,17 @@ namespace UserService.Infrastructure.Migrations
                     b.Property<string>("ModifiedByUser")
                         .HasColumnType("VARCHAR(36)");
 
-                    b.Property<string>("PermissionId")
-                        .IsRequired()
+                    b.Property<Guid>("PermissionId")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<Guid>("PermissionId1")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
+                    b.Property<Guid>("RoleId")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<Guid>("RoleId1")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionId1");
-
-                    b.HasIndex("RoleId1");
+                    b.HasIndex("PermissionId");
 
                     b.HasIndex("RoleId", "PermissionId");
 
@@ -304,27 +294,17 @@ namespace UserService.Infrastructure.Migrations
                     b.Property<string>("ModifiedByUser")
                         .HasColumnType("VARCHAR(36)");
 
-                    b.Property<string>("PermissionId")
-                        .IsRequired()
+                    b.Property<Guid>("PermissionId")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<Guid>("PermissionId1")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
+                    b.Property<Guid>("UserId")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<Guid>("UserId1")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionId1");
-
-                    b.HasIndex("UserId1");
+                    b.HasIndex("PermissionId");
 
                     b.HasIndex("UserId", "PermissionId");
 
@@ -358,27 +338,17 @@ namespace UserService.Infrastructure.Migrations
                     b.Property<string>("ModifiedByUser")
                         .HasColumnType("VARCHAR(36)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
+                    b.Property<Guid>("RoleId")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<Guid>("RoleId1")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
+                    b.Property<Guid>("UserId")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<Guid>("UserId1")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1");
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserId", "RoleId");
 
@@ -407,13 +377,13 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.HasOne("UserService.Domain.Entities.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("PermissionId1")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("UserService.Domain.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId1")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -426,13 +396,13 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.HasOne("UserService.Domain.Entities.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("PermissionId1")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("UserService.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -445,13 +415,13 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.HasOne("UserService.Domain.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId1")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("UserService.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -15,17 +15,17 @@ public abstract record BaseDto<TKey> : IBaseDto<TKey>
     public DateTimeOffset? LastModifiedAt { get; set; }
 }
 
-public abstract record DetailAuditDto<TKey> : BaseDto<TKey>, ISoftDelete
+public abstract record SoftDeleteBaseDto<TKey> : BaseDto<TKey>, ISoftDelete
 {
     public bool IsRemoved { get; set; } = false;
 }
 
-public abstract record DocumentAuditDto<TKey> : BaseDto<TKey>
+public abstract record StatusBaseDto<TKey> : BaseDto<TKey>
 {
     public EStatus Status { get; set; } = EStatus.Draft;
 }
 
-public abstract record MasterDataAuditDto<TKey> : BaseDto<TKey>, IActivatable
+public abstract record ActiveBaseDto<TKey> : BaseDto<TKey>, IActivatable
 {
     public bool IsActive { get; set; } = true;
 }

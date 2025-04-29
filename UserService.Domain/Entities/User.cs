@@ -3,7 +3,7 @@ using UserService.Domain.Enums;
 
 namespace UserService.Domain.Entities;
 
-public record User : EntityAuditWithOrgMasterData<Guid>
+public record User : ActiveAuditableEntity<Guid>
 {
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }

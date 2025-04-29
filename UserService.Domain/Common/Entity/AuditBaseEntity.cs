@@ -20,17 +20,17 @@ public abstract record AuditBaseEntity<TKey> : BaseEntity<TKey>, IAuditable
     public DateTimeOffset? LastModifiedAt { get; set; }
 }
 
-public abstract record EntityDetailAudit<TKey> : AuditBaseEntity<TKey>, ISoftDelete
+public abstract record SoftDeleteAuditEntity<TKey> : AuditBaseEntity<TKey>, ISoftDelete
 {
     public bool IsRemoved { get; set; } = false;
 }
 
-public abstract record EntityDocumentAudit<TKey> : AuditBaseEntity<TKey>
+public abstract record StatusAuditEntity<TKey> : AuditBaseEntity<TKey>
 {
     public EStatus Status { get; set; } = EStatus.Draft;
 }
 
-public abstract record EntityMasterDataAudit<TKey> : AuditBaseEntity<TKey>, IActivatable
+public abstract record ActiveAuditEntity<TKey> : AuditBaseEntity<TKey>, IActivatable
 {
     public bool IsActive { get; set; } = true;
 }

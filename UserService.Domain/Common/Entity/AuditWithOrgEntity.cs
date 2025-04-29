@@ -5,7 +5,7 @@ using UserService.Domain.Enums;
 
 namespace UserService.Domain.Common.Entity;
 
-public abstract record AuditWithOrgEntity<TKey> : AuditBaseEntity<TKey>
+public abstract record AuditWithOrgEntity<TKey> : AuditBaseEntity<TKey>, IOrganizationScope
 {
     [Column(TypeName = "VARCHAR(36)")]
     public string? CompanyId { get; set; }
@@ -14,17 +14,17 @@ public abstract record AuditWithOrgEntity<TKey> : AuditBaseEntity<TKey>
     public string? BranchId { get; set; }
 }
 
-public abstract record EntityAuditWithOrgDetail<TKey> : AuditWithOrgEntity<TKey>
+public abstract record SoftDeleteAuditableEntity<TKey> : AuditWithOrgEntity<TKey>
 {
     public bool IsRemoved { get; set; } = false;
 }
 
-public abstract record EntityAuditWithOrgMasterData<TKey> : AuditWithOrgEntity<TKey>, IActivatable
-{
-    public bool IsActive { get; set; } = true;
-}
-
-public abstract record EntityAuditWithOrgDocument<TKey> : AuditWithOrgEntity<TKey>
+public abstract record StatusAuditableEntity<TKey> : AuditWithOrgEntity<TKey>
 {
     public EStatus Status { get; set; } = EStatus.Draft;
+}
+
+public abstract record ActiveAuditableEntity<TKey> : AuditWithOrgEntity<TKey>, IActivatable
+{
+    public bool IsActive { get; set; } = true;
 }

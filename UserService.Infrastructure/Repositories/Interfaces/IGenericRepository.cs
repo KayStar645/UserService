@@ -18,10 +18,10 @@ public interface IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TK
 
 
     // Lấy 1 phần tử theo id hoặc theo điều kiện
-    Task<TEntity> GetByIdAsync(TKey id);
-    Task<TEntity> GetByIdAsync(TKey id, params Expression<Func<TEntity, object>>[] includeProperties);
-    Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
-    Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
+    Task<TEntity?> GetByIdAsync(TKey id);
+    Task<TEntity?> GetByIdAsync(TKey id, params Expression<Func<TEntity, object>>[] includeProperties);
+    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
 
     IQueryable<TEntity> GetById(TKey id);
     IQueryable<TEntity> GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties);
@@ -35,12 +35,12 @@ public interface IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TK
 
 
     // Thêm dữ liệu
-    Task<TEntity> AddAsync(TEntity entity);
+    Task AddAsync(TEntity entity);
     Task AddRangeAsync(IEnumerable<TEntity> entities);
 
 
     // Cập nhật dữ liệu
-    TEntity Update(TEntity entity);
+    void Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
 
 

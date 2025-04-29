@@ -31,31 +31,31 @@ public class UserDbContextInitializer
         }
     }
 
-    public async Task SeedAsync()
-    {
-        try
-        {
-            await TrySeedAsync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
-            throw;
-        }
-    }
+    //public async Task SeedAsync()
+    //{
+    //    try
+    //    {
+    //        await TrySeedAsync();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        _logger.LogError(ex, "An error occurred while seeding the database.");
+    //        throw;
+    //    }
+    //}
 
-    public async Task TrySeedAsync()
-    {
-        //Default Admin
+    //public async Task TrySeedAsync()
+    //{
+    //    //Default Admin
        
 
-        //Default Role
+    //    //Default Role
         
 
-        // Add role to admin
+    //    // Add role to admin
         
 
-        // Add permission to role
+    //    // Add permission to role
         
-    }
+    //}
 }

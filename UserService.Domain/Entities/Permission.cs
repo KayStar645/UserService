@@ -2,7 +2,7 @@
 
 namespace UserService.Domain.Entities;
 
-public record Permission : EntityAuditWithOrgDetail<Guid>
+public record Permission : ActiveAuditableEntity<Guid>
 {
     public string? Code { get; set; }
     public string? Name { get; set; }

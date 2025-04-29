@@ -10,14 +10,14 @@ using UserService.Domain.Events.Async;
 using UserService.Domain.Events.FireAndForget;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Base.Commands.Create;
+namespace UserService.Application.Features.Base.Commands.Update;
 
 
 // Khi override lại phải luôn gọi lại phương thức virtual cha
-public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result<TDto>>
-    where TValidator : AbstractValidator<TRequest>
-    where TRequest : CreateCommand<TDto>, IRequest<Result<TDto>>
-    where TEntity : BaseEntity<TKey>
+public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result<TDto>>
+        where TValidator : AbstractValidator<TRequest>
+        where TRequest : UpdateCommand<TKey, TDto>, IRequest<Result<TDto>>
+        where TEntity : BaseEntity<TKey>
 {
     private readonly IUnitOfWork<TKey> _unitOfWork;
     protected readonly IMapper _mapper;
@@ -25,15 +25,15 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly ICurrentUserService _currentUserService;
     protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
 
-    public CreateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
+    public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-         IStringLocalizer<LValidator> validatorLocalizer)
+        IStringLocalizer<LValidator> pValidatorLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = validatorLocalizer;
+        _validatorLocalizer = pValidatorLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -47,16 +47,16 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
                 return validatorResult;
             }
 
-            var entity = await HandlerBeforeCreate(request);
+            var oldEntity = await HandlerBeforeUpdate(request);
 
-            var createResult = await HandlerCreate(entity, cancellationToken);
+            var updateResult = await HandlerUpdate(request, oldEntity, cancellationToken);
 
-            await HandlerAfterCreate(request, createResult.entity, createResult.dto);
+            await HandlerAfterUpdate(request, oldEntity, updateResult.entity, updateResult.dto);
 
-            await EventAfterCreate(request, createResult.entity);
+            await EventAfterUpdate(request, oldEntity, updateResult.entity);
 
             await transaction.CommitAsync(cancellationToken);
-            return createResult.dto;
+            return updateResult.dto;
         }
         catch (Exception ex)
         {
@@ -92,32 +92,39 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
         return Result<TDto>.Success(_mapper.Map<TDto>(request));
     }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-    protected virtual async Task<TEntity> HandlerBeforeCreate(TRequest request)
+    protected virtual async Task<TEntity> HandlerBeforeUpdate(TRequest request)
     {
-        return _mapper.Map<TEntity>(request);
-    }
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        var findEntity = await _unitOfWork.Set<TEntity>().GetByIdAsync(request.Id);
 
-    protected virtual async Task<(Result<TDto> dto, TEntity entity)> HandlerCreate(TEntity entity, CancellationToken cancellationToken)
+        if (findEntity == null)
+        {
+            throw new ApplicationException(_validatorLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
+        }
+
+        return findEntity;
+    }
+
+    protected virtual async Task<(Result<TDto> dto, TEntity entity)> HandlerUpdate(TRequest request, TEntity oldEntity, CancellationToken cancellationToken)
     {
-        await _unitOfWork.Set<TEntity>().AddAsync(entity);
+        var newEntity = _mapper.Map<TEntity>(request);
+        oldEntity.Update(newEntity);
+        _unitOfWork.Set<TEntity>().Update(oldEntity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var dto = _mapper.Map<TDto>(entity);
+        var dto = _mapper.Map<TDto>(newEntity);
 
-        return (Result<TDto>.Success(dto), entity);
+        return (Result<TDto>.Success(dto), newEntity);
     }
-
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-    protected virtual async Task HandlerAfterCreate(TRequest request, TEntity entity, TDto dto) { }
+    protected virtual async Task HandlerAfterUpdate(TRequest request, TEntity oldEntity, TEntity entity, TDto dto) { }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
-    private async Task EventAfterCreate(TRequest request, TEntity entity)
+    private async Task EventAfterUpdate(TRequest request, TEntity oldEntity, TEntity entity)
     {
-        await _mediator.Publish(new CreatedEventAsync<TRequest, TEntity>(request, entity));
+        await _mediator.Publish(new UpdatedEventAsync<TRequest, TEntity>(request, oldEntity, entity));
 
-        _ = _mediator.Publish(new CreatedEventFireAndForget<TRequest, TEntity>(request, entity));
+        _ = _mediator.Publish(new UpdatedEventFireAndForget<TRequest, TEntity>(request, oldEntity, entity));
     }
+
 }

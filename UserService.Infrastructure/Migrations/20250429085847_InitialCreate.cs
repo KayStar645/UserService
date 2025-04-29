@@ -86,7 +86,7 @@ namespace UserService.Infrastructure.Migrations
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
                     BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false)
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,10 +108,8 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    RoleId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId1 = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
@@ -124,14 +122,14 @@ namespace UserService.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_UserRole", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRole_Role_RoleId1",
-                        column: x => x.RoleId1,
+                        name: "FK_UserRole_Role_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRole_User_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserRole_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -142,10 +140,8 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    PermissionId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    RoleId1 = table.Column<Guid>(type: "uuid", nullable: false),
-                    PermissionId1 = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
@@ -158,14 +154,14 @@ namespace UserService.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_RolePermission", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RolePermission_Permission_PermissionId1",
-                        column: x => x.PermissionId1,
+                        name: "FK_RolePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RolePermission_Role_RoleId1",
-                        column: x => x.RoleId1,
+                        name: "FK_RolePermission_Role_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -176,10 +172,8 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    PermissionId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false),
-                    PermissionId1 = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
@@ -192,14 +186,14 @@ namespace UserService.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_UserPermission", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserPermission_Permission_PermissionId1",
-                        column: x => x.PermissionId1,
+                        name: "FK_UserPermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPermission_User_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserPermission_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -231,19 +225,14 @@ namespace UserService.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_PermissionId1",
+                name: "IX_RolePermission_PermissionId",
                 table: "RolePermission",
-                column: "PermissionId1");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_RoleId_PermissionId",
                 table: "RolePermission",
                 columns: new[] { "RoleId", "PermissionId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_RoleId1",
-                table: "RolePermission",
-                column: "RoleId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",
@@ -261,9 +250,9 @@ namespace UserService.Infrastructure.Migrations
                 column: "Username");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPermission_PermissionId1",
+                name: "IX_UserPermission_PermissionId",
                 table: "UserPermission",
-                column: "PermissionId1");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPermission_UserId_PermissionId",
@@ -271,24 +260,14 @@ namespace UserService.Infrastructure.Migrations
                 columns: new[] { "UserId", "PermissionId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPermission_UserId1",
-                table: "UserPermission",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRole_RoleId1",
+                name: "IX_UserRole_RoleId",
                 table: "UserRole",
-                column: "RoleId1");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_UserId_RoleId",
                 table: "UserRole",
                 columns: new[] { "UserId", "RoleId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRole_UserId1",
-                table: "UserRole",
-                column: "UserId1");
         }
 
         /// <inheritdoc />
