@@ -1,4 +1,4 @@
-﻿namespace UserService.API.Endpoints.Roles;
+﻿namespace UserService.API.Endpoints.Role;
 
 public static partial class RoleEndpointExtensions
 {

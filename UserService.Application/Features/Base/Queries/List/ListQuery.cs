@@ -7,7 +7,7 @@ using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Base.Queries.List;
 
-public abstract record ListQuery<TDto> : IQuery<Result<PagedResult<TDto>>>
+public abstract record ListQuery<TDto> : IQuery<Result<PagedListResult<TDto>>>
 {
     public string? Search;
     public string? Filters;

@@ -1,5 +1,6 @@
-﻿using UserService.API.Endpoints.Roles;
-using UserService.API.Endpoints.Users;
+﻿using UserService.API.Endpoints.Permission;
+using UserService.API.Endpoints.Role;
+using UserService.API.Endpoints.User;
 
 namespace UserService.API.Endpoints;
 
@@ -7,7 +8,8 @@ public static class EndpointsRegistration
 {
     public static void RegisterAllEndpoints(this WebApplication app)
     {
-        app.MapUserEndpoints();
+        app.MapPermissionEndpoints();
         app.MapRoleEndpoints();
+        app.MapUserEndpoints();
     }
 }

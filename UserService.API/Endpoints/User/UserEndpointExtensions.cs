@@ -1,4 +1,4 @@
-﻿namespace UserService.API.Endpoints.Users;
+﻿namespace UserService.API.Endpoints.User;
 
 public static partial class UserEndpointExtensions
 {

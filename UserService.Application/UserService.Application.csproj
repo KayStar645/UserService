@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Permissions\Commands\Delete\" />
-    <Folder Include="Features\Permissions\Commands\Update\" />
-    <Folder Include="Features\Permissions\Queries\Get\" />
-    <Folder Include="Features\Permissions\Queries\List\" />
     <Folder Include="Features\Roles\Commands\Create\" />
     <Folder Include="Features\Roles\Commands\Delete\" />
     <Folder Include="Features\Roles\Commands\Update\" />
