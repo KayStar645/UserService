@@ -3,7 +3,7 @@ using UserService.Domain.Enums;
 
 namespace UserService.Application.DTOs;
 
-public record UserDto : SoftDeleteBaseWithOrgDto<Guid>
+public record UserDto : ActiveBaseWithOrgDto<Guid>
 {
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }

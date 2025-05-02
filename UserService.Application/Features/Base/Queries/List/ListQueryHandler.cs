@@ -96,8 +96,6 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         return Result<PagedListResult<TDto>>.Success(new PagedListResult<TDto>(Enumerable.Empty<TDto>(), 0, request.Page, 0));
     }
 
-
-
     protected virtual async Task<(Result<PagedListResult<TDto>> result, IEnumerable<TEntity> listEntity)> HandlerList(TRequest request, CancellationToken cancellationToken)
     {
         var query = _unitOfWork.Set<TEntity>().GetAll();

@@ -2,7 +2,7 @@
 
 namespace UserService.Application.DTOs;
 
-public record RoleDto : SoftDeleteBaseWithOrgDto<Guid>
+public record RoleDto : BaseWithOrgDto<Guid>
 {
     public string? Code { get; set; }
     public string? Name { get; set; }

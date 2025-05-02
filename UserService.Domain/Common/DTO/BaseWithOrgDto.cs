@@ -10,11 +10,6 @@ public record BaseWithOrgDto<TKey> : BaseDto<TKey>, IOrganizationScope
     public string? BranchId { get; set; }
 }
 
-public abstract record SoftDeleteBaseWithOrgDto<TKey> : BaseWithOrgDto<TKey>
-{
-    public bool IsRemoved { get; set; } = false;
-}
-
 public abstract record StatusBaseWithOrgDto<TKey> : BaseWithOrgDto<TKey>
 {
     public EStatus Status { get; set; } = EStatus.Draft;
