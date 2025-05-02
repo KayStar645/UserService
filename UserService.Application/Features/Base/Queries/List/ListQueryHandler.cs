@@ -27,19 +27,19 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
     protected readonly ISieveProcessor _sieveProcessor;
 
-    protected List<string> _fields = new List<string>();
-    protected List<string> _search = new List<string>();
+    protected string[] _fields = Array.Empty<string>();
+    protected string[] _search = Array.Empty<string>();
 
     public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<LValidator> pLalidatorLocalizer,
+        IStringLocalizer<LValidator> pValidatorLocalizer,
         ISieveProcessor pSieveProcessor)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pLalidatorLocalizer;
+        _validatorLocalizer = pValidatorLocalizer;
         _sieveProcessor = pSieveProcessor;
     }
 
@@ -97,9 +97,11 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     {
         var query = _unitOfWork.Set<TEntity>().GetAll();
 
-        var sieve = _mapper.Map<SieveModel>(request);
         query = ApplySelected(request, query);
-        query = _sieveProcessor.Apply(sieve, query);
+
+        var noPagingSieve = new SieveModel { Filters = request.Filters, Sorts = request.Sorts };
+        query = _sieveProcessor.Apply(noPagingSieve, query);
+
         query = ApplySearch(request, query);
         query = ApplyQuery(request, query);
 
@@ -158,24 +160,38 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     #region Tìm kiếm
     private IQueryable<TEntity> ApplySearch(TRequest request, IQueryable<TEntity> query)
     {
-        if (string.IsNullOrEmpty(request.Search))
+        if (string.IsNullOrWhiteSpace(request.Search))
             return query;
 
-        var searchFields = _search;
+        var parameter = Expression.Parameter(typeof(TEntity), "x");
+        Expression? orExpression = null;
 
-        foreach (var field in searchFields)
+        foreach (var field in _search)
         {
-            if (field.Contains("."))
+            Expression? propertyExpression;
+
+            if (field.Contains('.'))
             {
-                query = ApplySearchForNestedField(request, query, field);
+                var parts = field.Split('.');
+                propertyExpression = GetNestedPropertyExpression(parameter, parts);
             }
             else
             {
-                query = ApplySearchForField(request, query, field);
+                propertyExpression = Expression.Property(parameter, field);
+            }
+
+            if (propertyExpression != null && propertyExpression.Type == typeof(string))
+            {
+                var expr = BuildCaseInsensitiveContains(propertyExpression, request.Search!);
+                orExpression = orExpression == null ? expr : Expression.OrElse(orExpression, expr);
             }
         }
 
-        return query;
+        if (orExpression == null)
+            return query;
+
+        var lambda = Expression.Lambda<Func<TEntity, bool>>(orExpression, parameter);
+        return query.Where(lambda);
     }
 
     private IQueryable<TEntity> ApplySearchForField(TRequest request, IQueryable<TEntity> query, string field)
@@ -185,14 +201,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
         if (property.Type == typeof(string))
         {
-#pragma warning disable CS8604 // Possible null reference argument.
-            var searchExpression = Expression.Call(
-                property,
-                typeof(string).GetMethod("Contains", new[] { typeof(string) }),
-                Expression.Constant(request.Search)
-            );
-#pragma warning restore CS8604 // Possible null reference argument.
-
+            var searchExpression = BuildCaseInsensitiveContains(property, request.Search!);
             var lambda = Expression.Lambda<Func<TEntity, bool>>(searchExpression, parameter);
             query = query.Where(lambda);
         }
@@ -203,20 +212,12 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     private IQueryable<TEntity> ApplySearchForNestedField(TRequest request, IQueryable<TEntity> query, string field)
     {
         var parts = field.Split('.');
-
         var parameter = Expression.Parameter(typeof(TEntity), "x");
         var propertyExpression = GetNestedPropertyExpression(parameter, parts);
 
-        if (propertyExpression != null)
+        if (propertyExpression != null && propertyExpression.Type == typeof(string))
         {
-#pragma warning disable CS8604 // Possible null reference argument.
-            var searchExpression = Expression.Call(
-                propertyExpression,
-                typeof(string).GetMethod("Contains", new[] { typeof(string) }),
-                Expression.Constant(request.Search)
-            );
-#pragma warning restore CS8604 // Possible null reference argument.
-
+            var searchExpression = BuildCaseInsensitiveContains(propertyExpression, request.Search!);
             var lambda = Expression.Lambda<Func<TEntity, bool>>(searchExpression, parameter);
             query = query.Where(lambda);
         }
@@ -235,5 +236,17 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
         return propertyExpression;
     }
+    private Expression BuildCaseInsensitiveContains(Expression propertyExpression, string? searchValue)
+    {
+        var toLower = typeof(string).GetMethod(nameof(string.ToLower), Type.EmptyTypes)!;
+
+        var loweredProperty = Expression.Call(propertyExpression, toLower);
+        var loweredSearch = Expression.Constant((searchValue ?? "").ToLowerInvariant());
+
+        var contains = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) })!;
+
+        return Expression.Call(loweredProperty, contains, loweredSearch);
+    }
+
     #endregion
 }

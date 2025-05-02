@@ -25,7 +25,8 @@ public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>
     protected readonly ICurrentUserService _currentUserService;
     protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
 
-    protected List<string> _fields = new List<string>();
+    protected string[] _fields = Array.Empty<string>();
+
 
     public GetQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,

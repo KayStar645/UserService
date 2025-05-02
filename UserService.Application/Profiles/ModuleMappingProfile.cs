@@ -19,7 +19,6 @@ public class ModuleMappingProfile : Profile
 
         CreateMap<RolePermission, RolePermissionDto>().ReverseMap();
 
-        CreateMap<SieveModel, ListPermissionDto>().ReverseMap();
         CreateMap<Permission, PermissionDto>().ReverseMap();
         CreateMap<Permission, ListPermissionDto>().ReverseMap();
         CreateMap<Permission, CreatePermissionDto>().ReverseMap();

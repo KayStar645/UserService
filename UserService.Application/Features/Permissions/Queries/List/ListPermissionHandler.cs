@@ -16,5 +16,6 @@ public class ListPermissionHandler : ListQueryHandler<Guid, ListPermissionValida
         IStringLocalizer<LValidator> pValidatorLocalizer, ISieveProcessor pSieveProcessor)
         : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer, pSieveProcessor)
     {
+        _search = new[] { "Code", "Name" };
     }
 }
