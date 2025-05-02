@@ -8,6 +8,8 @@ namespace UserService.Application.Features.Permissions.Commands;
 
 public record CreatePermissionDto : CreateCommandDto<PermissionDto>
 {
+    public string? CompanyId { get; set; }
+    public string? BranchId { get; set; }
     public string? Code { get; set; }
     public string? Name { get; set; }
 }

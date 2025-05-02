@@ -88,8 +88,9 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
             return Result<TDto>.Invalid(validationErrors);
         }
+        var dto = _mapper.Map<TDto>(request);
 
-        return Result<TDto>.Success(_mapper.Map<TDto>(request));
+        return Result<TDto>.Success(dto);
     }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously

@@ -36,9 +36,9 @@ public static partial class PermissionEndpointExtensions
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
     }
 
-    private static async Task<IResult> HandleDeletePermission(Guid id, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleDeletePermission(Guid permissionId, [FromServices] IMediator mediator)
     {
-        var result = await mediator.Send(new DeletePermissionDto { Id = id });
+        var result = await mediator.Send(new DeletePermissionDto { Id = permissionId });
         return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Errors);
     }
 }

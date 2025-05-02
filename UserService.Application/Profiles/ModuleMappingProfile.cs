@@ -23,6 +23,7 @@ public class ModuleMappingProfile : Profile
         CreateMap<Permission, PermissionDto>().ReverseMap();
         CreateMap<Permission, ListPermissionDto>().ReverseMap();
         CreateMap<Permission, CreatePermissionDto>().ReverseMap();
+        CreateMap<PermissionDto, CreatePermissionDto>().ReverseMap();
         CreateMap<Permission, DeletePermissionDto>().ReverseMap();
     }
 }
