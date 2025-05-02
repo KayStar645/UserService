@@ -100,6 +100,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     {
         var query = _unitOfWork.Set<TEntity>().GetAll();
 
+        query = ApplyIncludes(request, query);
         query = ApplySelected(request, query);
 
         var noPagingSieve = new SieveModel { Filters = request.Filters, Sorts = request.Sorts };
@@ -126,7 +127,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         return listDto;
     }
 
-    #region Lấy trường truy vấn
+    #region Fields - Select những trường nào
     private IQueryable<TEntity> ApplySelected(TRequest request, IQueryable<TEntity> query)
     {
         if (request.Fields == null || !request.Fields.Any())
@@ -160,7 +161,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     }
     #endregion
 
-    #region Tìm kiếm
+    #region Search - Tìm kiếm theo gì
     private IQueryable<TEntity> ApplySearch(TRequest request, IQueryable<TEntity> query)
     {
         if (string.IsNullOrWhiteSpace(request.Search))
@@ -264,6 +265,40 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
             ?? throw new InvalidOperationException("string.Contains method not found.");
 
         return Expression.Call(loweredProperty, containsMethod, loweredSearch);
+    }
+
+    #endregion
+
+    #region Includes - Lấy thêm những obj nào
+    private IQueryable<TEntity> ApplyIncludes(TRequest request, IQueryable<TEntity> query)
+    {
+        if (request.Includes == null || !request.Includes.Any())
+            return query;
+
+        foreach (var include in request.Includes)
+        {
+            query = ApplyInclude(query, include);
+        }
+
+        return query;
+    }
+
+    private static IQueryable<TEntity> ApplyInclude(IQueryable<TEntity> query, string includePath)
+    {
+        var props = includePath.Split('.');
+        IQueryable<TEntity> result = query;
+
+        if (props.Length == 1)
+        {
+            result = result.Include(props[0]);
+        }
+        else
+        {
+            string fullPath = string.Join('.', props);
+            result = result.Include(fullPath);
+        }
+
+        return result;
     }
 
     #endregion

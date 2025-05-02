@@ -21,11 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Roles\Commands\Create\" />
-    <Folder Include="Features\Roles\Commands\Delete\" />
     <Folder Include="Features\Roles\Commands\Update\" />
-    <Folder Include="Features\Roles\Queries\Get\" />
-    <Folder Include="Features\Roles\Queries\List\" />
     <Folder Include="Features\Users\Commands\Create\" />
     <Folder Include="Features\Users\Commands\Delete\" />
     <Folder Include="Features\Users\Commands\Update\" />
