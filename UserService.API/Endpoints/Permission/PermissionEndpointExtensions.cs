@@ -9,7 +9,7 @@ public static partial class PermissionEndpointExtensions
 {
     public static RouteGroupBuilder MapPermissionEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/permissions");
+        var group = app.MapGroup("/permissions").WithTags("Permissions");
 
         group.MapGet("/", HandleListPermissions).WithSummary("Lấy danh sách permissions");
 
@@ -30,7 +30,7 @@ public static partial class PermissionEndpointExtensions
     }
 
 
-    private static async Task<IResult> HandleCreatePermission(CreatePermissionDto request, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleCreatePermission([FromBody] CreatePermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);

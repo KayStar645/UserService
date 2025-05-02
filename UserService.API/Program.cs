@@ -1,4 +1,6 @@
-﻿using UserService.API.Endpoints;
+﻿using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using UserService.API.Endpoints;
 using UserService.Application;
 using UserService.Infrastructure;
 
@@ -21,6 +23,15 @@ if (builder.Environment.IsDevelopment())
 }
 
 var app = builder.Build();
+
+var supportedCultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("vi"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 // Cấu hình các middleware
 if (app.Environment.IsDevelopment())

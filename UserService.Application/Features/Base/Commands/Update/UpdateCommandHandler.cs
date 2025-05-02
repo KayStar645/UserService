@@ -2,6 +2,7 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
@@ -94,7 +95,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
     protected virtual async Task<TEntity> HandlerBeforeUpdate(TRequest request)
     {
-        var findEntity = await _unitOfWork.Set<TEntity>().GetByIdAsync(request.Id);
+        var query = _unitOfWork.Set<TEntity>().GetById(request.Id);
+        
+        query = IncludeRelationsForUpdate(query);
+
+        var findEntity = await query.SingleOrDefaultAsync();
 
         if (findEntity == null)
         {
@@ -102,6 +107,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
         }
 
         return findEntity;
+    }
+
+    protected virtual IQueryable<TEntity> IncludeRelationsForUpdate(IQueryable<TEntity> query)
+    {
+        return query;
     }
 
     protected virtual async Task<(Result<TDto> dto, TEntity entity)> HandlerUpdate(TRequest request, TEntity oldEntity, CancellationToken cancellationToken)

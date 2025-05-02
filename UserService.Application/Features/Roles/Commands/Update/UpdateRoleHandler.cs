@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using UserService.Application.DTOs;
 using UserService.Application.Features.Base.Commands;
@@ -17,5 +18,10 @@ public class UpdateRoleHandler : UpdateCommandHandler<Guid, UpdateRoleValidator,
         : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer)
     {
 
+    }
+
+    protected override IQueryable<Role> IncludeRelationsForUpdate(IQueryable<Role> query)
+    {
+        return query.Include(x => x.RolePermissions);
     }
 }

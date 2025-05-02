@@ -12,16 +12,23 @@ public class ModuleMappingProfile : Profile
 {
     public ModuleMappingProfile()
     {
+        // User
         CreateMap<User, UserDto>().ReverseMap();
 
+
+        // UserRole
         CreateMap<UserRole, UserRoleDto>().ReverseMap();
         CreateMap<UserRole, CreateUserRoleDto>().ReverseMap();
         CreateMap<UserRoleDto, CreateUserRoleDto>().ReverseMap();
 
+
+        // UserPermission
         CreateMap<UserPermission, UserPermissionDto>().ReverseMap();
         CreateMap<UserPermission, CreateUserPermissionDto>().ReverseMap();
         CreateMap<UserPermissionDto, CreateUserPermissionDto>().ReverseMap();
 
+
+        // Role
         CreateMap<Role, RoleDto>().ReverseMap();
         CreateMap<Role, ListRoleDto>().ReverseMap();
         CreateMap<Role, CreateRoleDto>().ReverseMap();
@@ -32,10 +39,17 @@ public class ModuleMappingProfile : Profile
         CreateMap<RoleDto, CreateRoleDto>().ReverseMap();
         CreateMap<RoleDto, UpdateRoleDto>().ReverseMap();
 
+
+        // RolePermission
         CreateMap<RolePermission, RolePermissionDto>().ReverseMap();
         CreateMap<RolePermission, CreateRolePermissionDto>().ReverseMap();
-        CreateMap<RolePermissionDto, CreateRolePermissionDto>().ReverseMap();
+        CreateMap<RolePermission, UpdateRolePermissionDto>().ReverseMap();
 
+        CreateMap<RolePermissionDto, CreateRolePermissionDto>().ReverseMap();
+        CreateMap<RolePermissionDto, UpdateRolePermissionDto>().ReverseMap();
+
+
+        // Permission
         CreateMap<Permission, PermissionDto>().ReverseMap();
         CreateMap<Permission, ListPermissionDto>().ReverseMap();
         CreateMap<Permission, CreatePermissionDto>().ReverseMap();
