@@ -13,7 +13,7 @@ namespace UserService.Application.Features.Permissions.Commands;
 public class CreatePermissionHandler : CreateCommandHandler<Guid, CreatePermissionValidator, CreatePermissionDto, PermissionDto, Permission>
 {
     public CreatePermissionHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<LValidator> pValidatorLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pValidatorLocalizer)
         :base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer)
     {
     }

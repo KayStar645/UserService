@@ -12,7 +12,7 @@ public record ListPermissionDto : ListQueryDto<PermissionDto>
 
 public class ListPermissionValidator : ListQueryValidator<Guid, ListPermissionDto, PermissionDto>
 {
-    public ListPermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer)
+    public ListPermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer)
         :base(pUnitOfWork, pValidatorLocalizer)
     { }
 }

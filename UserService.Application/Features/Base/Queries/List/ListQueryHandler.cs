@@ -29,7 +29,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _validatorLocalizer;
     protected readonly ISieveProcessor _sieveProcessor;
 
     protected string[] _fields = Array.Empty<string>();
@@ -37,7 +37,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<LValidator> pValidatorLocalizer,
+        IStringLocalizer<SharedResource> pValidatorLocalizer,
         ISieveProcessor pSieveProcessor)
     {
         _unitOfWork = pUnitOfWork;

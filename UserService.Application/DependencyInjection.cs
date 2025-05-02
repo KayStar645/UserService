@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Sieve.Services;
 using System.Reflection;
 using UserService.Application.Profiles;
@@ -16,6 +17,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddLocalization(options => options.ResourcesPath = "Resources");
+        services.AddSingleton<IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
+        services.AddScoped(typeof(IStringLocalizer<>), typeof(StringLocalizer<>));
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 

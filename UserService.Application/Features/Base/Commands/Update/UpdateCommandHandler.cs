@@ -24,11 +24,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _validatorLocalizer;
 
     public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<LValidator> pValidatorLocalizer)
+        IStringLocalizer<SharedResource> pValidatorLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
@@ -103,6 +103,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
         if (findEntity == null)
         {
+            var x = _validatorLocalizer["test"];
             throw new ApplicationException(_validatorLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
         }
 

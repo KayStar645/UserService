@@ -33,4 +33,19 @@
     <ProjectReference Include="..\UserService.Infrastructure\UserService.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Languages\SharedResource\SharedResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Languages\SharedResource\SharedResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

@@ -24,15 +24,15 @@ if (builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
-var supportedCultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
+var supportedCultures = new[] { new CultureInfo("vi-VN"), new CultureInfo("en-US") };
 
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
-    DefaultRequestCulture = new RequestCulture("vi"),
+    DefaultRequestCulture = new RequestCulture("vi-VN"),
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
 });
-
+ 
 // Cấu hình các middleware
 if (app.Environment.IsDevelopment())
 {

@@ -13,7 +13,7 @@ namespace UserService.Application.Features.Roles.Queries;
 public class GetRoleHandler : GetQueryHandler<Guid, GetRoleValidator, GetRoleDto, RoleDto, Role>
 {
     public GetRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator, 
-        ICurrentUserService pCurrentUserService, IStringLocalizer<LValidator> pValidatorLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pValidatorLocalizer)
         : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer)
     {
 

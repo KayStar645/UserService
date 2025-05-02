@@ -17,7 +17,7 @@ public record CreateRoleDto : CreateCommandDto<RoleDto>
 
 public class CreateRoleValidator : CreateCommandValidator<Guid, CreateRoleDto, RoleDto>
 {
-    public CreateRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer) : base(pUnitOfWork, pValidatorLocalizer)
+    public CreateRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer) : base(pUnitOfWork, pValidatorLocalizer)
     {
 
     }

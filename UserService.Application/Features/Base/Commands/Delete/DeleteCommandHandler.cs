@@ -23,11 +23,11 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _validatorLocalizer;
 
     public DeleteBaseCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<LValidator> pValidatorLocalizer)
+        IStringLocalizer<SharedResource> pValidatorLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
