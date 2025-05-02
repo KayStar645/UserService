@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using UserService.Domain.Entities;
+using UserService.Infrastructure.Common;
 
-namespace UserService.Infrastructure;
+namespace UserService.Infrastructure.Persistence;
 
 public class UserDbContext : DbContext
 {
@@ -13,9 +14,11 @@ public class UserDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.ConfigureSharedColumnOrder();
     }
 
     public DbSet<User> User => Set<User>();

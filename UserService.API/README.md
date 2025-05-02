@@ -6,4 +6,4 @@ Remove-Migration -Project UserService.Infrastructure -StartupProject UserService
 
 Update-Database -Project UserService.Infrastructure -StartupProject UserService.API -Context UserDbContext
 
-Update-Database LastGoodMigrationName -Project UserService.Infrastructure -StartupProject UserService.API -Context UserDbContext
+Get-Migration -Project UserService.Infrastructure -StartupProject UserService.API -Context UserDbContext

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using UserService.Domain.Entities;
 
-namespace UserService.Infrastructure;
+namespace UserService.Infrastructure.Persistence;
 
 public class UserDbContextInitializer
 {

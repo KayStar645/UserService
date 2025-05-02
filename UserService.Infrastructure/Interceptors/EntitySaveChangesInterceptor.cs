@@ -35,19 +35,24 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
         if (context is null)
             return;
 
-
         foreach (var entry in context.ChangeTracker.Entries())
         {
+            // Dữ liệu không bao giờ được người dùng xóa khỏi hệ thống
+            if (entry.State == EntityState.Deleted)
+                entry.State = EntityState.Unchanged;
+
+            if (entry.State == EntityState.Added && entry.Entity is IBaseEntity<Guid> createEntity)
+                createEntity.Id = Guid.NewGuid();
+
+            if (entry.State == EntityState.Deleted && entry.Entity is ISoftDelete deleteEntity)
+                deleteEntity.IsRemoved = true;
+
             if (entry.Entity is IAuditable auditableEntity)
             {
                 string userName = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(static c => c.Type == CONSTANT_CLAIM_TYPES.USER)?.Value ?? string.Empty;
                 string staffCode = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == CONSTANT_CLAIM_TYPES.STAFF)?.Value ?? string.Empty;
                 if (entry.State == EntityState.Added)
-                {
-                    if(entry.Entity is IBaseEntity<Guid> entity)
-                    {
-                       entity.Id = Guid.NewGuid();
-                    }    
+                {   
                     auditableEntity.CreatedAt = DateTimeOffset.UtcNow;
                     auditableEntity.CreatedByUser = userName;
                     auditableEntity.CreatedByCode = staffCode;
@@ -55,16 +60,10 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
                 else if (entry.State == EntityState.Modified)
                 {
                     auditableEntity.LastModifiedAt = DateTimeOffset.UtcNow;
-                    auditableEntity.ModifiedByUser = userName;
-                    auditableEntity.ModifiedByCode = staffCode;
-                }
-                else if (entry.State == EntityState.Deleted && entry.Entity is ISoftDelete entity)
-                {
-                    entity.IsRemoved = true;
-                    entry.State = EntityState.Unchanged;
+                    auditableEntity.LastModifiedByUser = userName;
+                    auditableEntity.LastModifiedByCode = staffCode;
                 }
             }
         }
-
     }
 }

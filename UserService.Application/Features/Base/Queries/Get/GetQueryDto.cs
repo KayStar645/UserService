@@ -9,9 +9,9 @@ namespace UserService.Application.Features.Base.Queries;
 
 public abstract record GetQueryDto<TKey, TDto> : IQuery<Result<TDto>>
 {
-    public required TKey Id { get; set; }
-    public List<string>? Includes;
-    public List<string>? Fields;
+    public required TKey Id { get; init; }
+    public string[]? Includes { get; init; }
+    public string[]? Fields { get; init; }
 }
 
 public class GetQueryValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : GetQueryDto<TKey, TDto>

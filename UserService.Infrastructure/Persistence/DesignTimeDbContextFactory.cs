@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace UserService.Infrastructure;
+namespace UserService.Infrastructure.Persistence;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<UserDbContext>
 {

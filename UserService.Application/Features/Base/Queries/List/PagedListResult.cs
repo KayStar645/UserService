@@ -13,8 +13,11 @@ public class PagedListResult<TEntity> : Result
     public bool HasNextPage => Page < TotalPages;
     public bool HasPreviousPage => Page > 1;
 
-    public PagedListResult(IEnumerable<TEntity> items, int totalCount, int page = 1, int pageSize = 30)
+    public PagedListResult(IEnumerable<TEntity> items, int totalCount, int? pPage = 1, int? pPageSize = 30)
     {
+        int page = pPage ?? 1;
+        int pageSize = pPageSize ?? 30;
+
         Items = items;
         TotalCount = totalCount;
         Page = page;
@@ -51,10 +54,12 @@ public class PagedListResult<TEntity> : Result
 
 public static class QueryableExtensions
 {
-    public static async Task<PagedListResult<TEntity>> GetPagedDataAsync<TEntity>(this IQueryable<TEntity> query, int page, int pageSize)
+    public static async Task<PagedListResult<TEntity>> GetPagedDataAsync<TEntity>(this IQueryable<TEntity> pQuery, int? pPage, int? pPageSize)
     {
-        int totalCount = await query.CountAsync();
-        var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        int page = pPage ?? 1;
+        int pageSize = pPageSize ?? 30;
+        int totalCount = await pQuery.CountAsync();
+        var items = await pQuery.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         return PagedListResult<TEntity>.Success(items, totalCount, page, pageSize);
     }
 }

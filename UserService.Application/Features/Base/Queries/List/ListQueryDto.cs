@@ -9,14 +9,13 @@ namespace UserService.Application.Features.Base.Queries;
 
 public abstract record ListQueryDto<TDto> : IQuery<Result<PagedListResult<TDto>>>
 {
-    public string? Search;
-    public string? Filters;
-    public string? Sorts;
-    public int Page = 1;
-    public int PageSize = 30;
-    public List<string>? Includes;
-    public List<string>? Fields;
-
+    public string? Search { get; init; }
+    public string? Filters { get; init; }
+    public string? Sorts { get; init; }
+    public int? Page { get; init; } = 1;
+    public int? PageSize { get; init; } = 30;
+    public string[]? Includes { get; init; }
+    public string[]? Fields { get; init; }
 }
 
 public class ListQueryValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : ListQueryDto<TDto>

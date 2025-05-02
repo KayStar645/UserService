@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserService.Domain.Entities;
 using UserService.Infrastructure.Interceptors;
+using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Repositories;
 using UserService.Infrastructure.Repositories.Interfaces;
 

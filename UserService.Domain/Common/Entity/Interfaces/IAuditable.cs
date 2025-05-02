@@ -3,7 +3,7 @@
 public interface IAuditable : IDateTracking
 {
     string? CreatedByCode { get; set; }
-    string? ModifiedByCode { get; set; }
+    string? LastModifiedByCode { get; set; }
     string? CreatedByUser { get; set; }
-    string? ModifiedByUser { get; set; }
+    string? LastModifiedByUser { get; set; }
 }

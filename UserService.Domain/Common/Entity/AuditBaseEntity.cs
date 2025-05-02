@@ -11,11 +11,11 @@ public abstract record AuditBaseEntity<TKey> : BaseEntity<TKey>, IAuditable
     public string? CreatedByCode { get; set; }
 
     [Column(TypeName = "VARCHAR(36)")]
-    public string? ModifiedByCode { get; set; }
+    public string? LastModifiedByCode { get; set; }
     [Column(TypeName = "VARCHAR(36)")]
     public string? CreatedByUser { get; set; }
     [Column(TypeName = "VARCHAR(36)")]
-    public string? ModifiedByUser { get; set; }
+    public string? LastModifiedByUser { get; set; }
     public DateTimeOffset? CreatedAt { get; set; }
     public DateTimeOffset? LastModifiedAt { get; set; }
 }

@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using UserService.Infrastructure;
+using UserService.Infrastructure.Persistence;
 
 #nullable disable
 
 namespace UserService.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20250429085847_InitialCreate")]
+    [Migration("20250502032507_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,11 +29,13 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("BranchId")
                         .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("Code")
                         .HasMaxLength(200)
@@ -41,46 +43,49 @@ namespace UserService.Infrastructure.Migrations
 
                     b.Property<string>("CompanyId")
                         .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(5);
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                    b.Property<bool>("IsRemoved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnOrder(3);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(9);
 
-                    b.Property<string>("ModifiedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByCode")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(7);
 
-                    b.Property<string>("ModifiedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByUser")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(8);
 
                     b.Property<string>("Name")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
                     b.HasIndex("CompanyId", "BranchId");
+
+                    b.HasIndex("Code", "CompanyId", "BranchId")
+                        .IsUnique();
 
                     b.ToTable("Permission", (string)null);
                 });
@@ -89,11 +94,13 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("BranchId")
                         .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("Code")
                         .HasMaxLength(200)
@@ -101,41 +108,49 @@ namespace UserService.Infrastructure.Migrations
 
                     b.Property<string>("CompanyId")
                         .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(5);
 
                     b.Property<bool>("IsRemoved")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnOrder(3);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(9);
 
-                    b.Property<string>("ModifiedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByCode")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(7);
 
-                    b.Property<string>("ModifiedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByUser")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(8);
 
                     b.Property<string>("Name")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.HasIndex("CompanyId", "BranchId");
+
+                    b.HasIndex("Code", "CompanyId", "BranchId")
+                        .IsUnique();
 
                     b.ToTable("Role", (string)null);
                 });
@@ -144,35 +159,43 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(7);
 
-                    b.Property<string>("ModifiedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByCode")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(5);
 
-                    b.Property<string>("ModifiedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByUser")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(6);
 
                     b.Property<Guid>("PermissionId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("RoleId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -188,26 +211,32 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("AvatarUrl")
                         .HasMaxLength(190)
                         .HasColumnType("character varying(190)");
 
                     b.Property<string>("BranchId")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("CompanyId")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(5);
 
                     b.Property<DateTimeOffset?>("DateOfBirth")
                         .HasColumnType("timestamp with time zone");
@@ -224,7 +253,8 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnOrder(3);
 
                     b.Property<bool>("IsEmailConfirmed")
                         .ValueGeneratedOnAdd()
@@ -237,13 +267,16 @@ namespace UserService.Infrastructure.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(9);
 
-                    b.Property<string>("ModifiedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByCode")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(7);
 
-                    b.Property<string>("ModifiedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByUser")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(8);
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -261,11 +294,14 @@ namespace UserService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email");
+                    b.HasIndex("Email")
+                        .IsUnique();
 
-                    b.HasIndex("PhoneNumber");
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
-                    b.HasIndex("Username");
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("User", (string)null);
                 });
@@ -274,35 +310,43 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(7);
 
-                    b.Property<string>("ModifiedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByCode")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(5);
 
-                    b.Property<string>("ModifiedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByUser")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(6);
 
                     b.Property<Guid>("PermissionId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -318,35 +362,43 @@ namespace UserService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(7);
 
-                    b.Property<string>("ModifiedByCode")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByCode")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(5);
 
-                    b.Property<string>("ModifiedByUser")
-                        .HasColumnType("VARCHAR(36)");
+                    b.Property<string>("LastModifiedByUser")
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnOrder(6);
 
                     b.Property<Guid>("RoleId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -358,24 +410,6 @@ namespace UserService.Infrastructure.Migrations
                     b.ToTable("UserRole", (string)null);
                 });
 
-            modelBuilder.Entity("UserService.Domain.Entities.Permission", b =>
-                {
-                    b.HasOne("UserService.Domain.Entities.Role", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("RoleId");
-
-                    b.HasOne("UserService.Domain.Entities.User", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("UserService.Domain.Entities.Role", b =>
-                {
-                    b.HasOne("UserService.Domain.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("UserService.Domain.Entities.RolePermission", b =>
                 {
                     b.HasOne("UserService.Domain.Entities.Permission", "Permission")
@@ -385,7 +419,7 @@ namespace UserService.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("UserService.Domain.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -404,7 +438,7 @@ namespace UserService.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("UserService.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserPermissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -423,7 +457,7 @@ namespace UserService.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("UserService.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -435,14 +469,14 @@ namespace UserService.Infrastructure.Migrations
 
             modelBuilder.Entity("UserService.Domain.Entities.Role", b =>
                 {
-                    b.Navigation("Permissions");
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("UserService.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Permissions");
+                    b.Navigation("UserPermissions");
 
-                    b.Navigation("Roles");
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

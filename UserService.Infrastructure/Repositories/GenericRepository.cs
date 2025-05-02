@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using UserService.Domain.Common.Entity;
+using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Infrastructure.Repositories;

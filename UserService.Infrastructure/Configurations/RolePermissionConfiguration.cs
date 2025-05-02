@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UserService.Domain.Entities;
 
 namespace UserService.Infrastructure.Configurations;
@@ -11,8 +11,8 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
         builder.ToTable(nameof(RolePermission));
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.RoleId).HasMaxLength(36);
-        builder.Property(x => x.PermissionId).HasMaxLength(36);
+        builder.Property(x => x.IsRemoved).HasDefaultValue(false);
+        builder.HasQueryFilter(x => !x.IsRemoved);
 
         builder.HasIndex(x => new { x.RoleId, x.PermissionId });
     }

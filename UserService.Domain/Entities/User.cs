@@ -16,6 +16,6 @@ public record User : ActiveAuditableEntity<Guid>
     public DateTimeOffset? DateOfBirth { get; set; }
     public EGender? Gender { get; set; }
 
-    public virtual required ICollection<Role> Roles { get; set; }
-    public virtual required ICollection<Permission> Permissions { get; set; }
+    public virtual required ICollection<UserRole> UserRoles { get; set; }
+    public virtual required ICollection<UserPermission> UserPermissions { get; set; }
 }

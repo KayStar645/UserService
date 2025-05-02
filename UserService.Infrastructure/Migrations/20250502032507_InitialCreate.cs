@@ -12,10 +12,63 @@ namespace UserService.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Permission",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
+                    BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permission", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
+                    BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyId = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    BranchId = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Username = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     Email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
@@ -25,16 +78,7 @@ namespace UserService.Infrastructure.Migrations
                     FullName = table.Column<string>(type: "character varying(190)", maxLength: 190, nullable: true),
                     AvatarUrl = table.Column<string>(type: "character varying(190)", maxLength: 190, nullable: true),
                     DateOfBirth = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    Gender = table.Column<int>(type: "integer", nullable: true),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CompanyId = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    BranchId = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    Gender = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,113 +86,19 @@ namespace UserService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Role", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Role_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Permission_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Permission_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRole",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRole", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRole_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRole_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RolePermission",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false)
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,15 +122,15 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    ModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,30 +149,59 @@ namespace UserService.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserRole",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRole_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRole_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Permission_Code_CompanyId_BranchId",
+                table: "Permission",
+                columns: new[] { "Code", "CompanyId", "BranchId" },
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_CompanyId_BranchId",
                 table: "Permission",
                 columns: new[] { "CompanyId", "BranchId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permission_RoleId",
-                table: "Permission",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Permission_UserId",
-                table: "Permission",
-                column: "UserId");
+                name: "IX_Role_Code_CompanyId_BranchId",
+                table: "Role",
+                columns: new[] { "Code", "CompanyId", "BranchId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_CompanyId_BranchId",
                 table: "Role",
                 columns: new[] { "CompanyId", "BranchId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Role_UserId",
-                table: "Role",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_PermissionId",
@@ -237,17 +216,20 @@ namespace UserService.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",
                 table: "User",
-                column: "Email");
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_PhoneNumber",
                 table: "User",
-                column: "PhoneNumber");
+                column: "PhoneNumber",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Username",
                 table: "User",
-                column: "Username");
+                column: "Username",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPermission_PermissionId",
