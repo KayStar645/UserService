@@ -11,9 +11,6 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
         builder.ToTable(nameof(UserRole));
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.IsRemoved).HasDefaultValue(false);
-        builder.HasQueryFilter(x => !x.IsRemoved);
-
         builder.HasIndex(x => new { x.UserId, x.RoleId });
     }
 }

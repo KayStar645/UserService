@@ -25,10 +25,12 @@ public class ModuleMappingProfile : Profile
         CreateMap<Role, RoleDto>().ReverseMap();
         CreateMap<Role, ListRoleDto>().ReverseMap();
         CreateMap<Role, CreateRoleDto>().ReverseMap();
+        CreateMap<Role, UpdateRoleDto>().ReverseMap();
         CreateMap<Role, DeleteRoleDto>().ReverseMap();
 
         CreateMap<RoleDto, GetRoleDto>().ReverseMap();
         CreateMap<RoleDto, CreateRoleDto>().ReverseMap();
+        CreateMap<RoleDto, UpdateRoleDto>().ReverseMap();
 
         CreateMap<RolePermission, RolePermissionDto>().ReverseMap();
         CreateMap<RolePermission, CreateRolePermissionDto>().ReverseMap();

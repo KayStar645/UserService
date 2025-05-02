@@ -13,8 +13,8 @@ public static partial class PermissionEndpointExtensions
 
         group.MapGet("/", HandleListPermissions).WithSummary("Lấy danh sách permissions");
 
-        group.MapPost("/create", HandleCreatePermission).WithSummary("Tạo mới permission");
-        group.MapDelete("/delete/{permissionId:guid}", HandleDeletePermission).WithSummary("Xóa permission theo ID");
+        group.MapPost("/", HandleCreatePermission).WithSummary("Tạo mới permission");
+        group.MapDelete("/{id:guid}", HandleDeletePermission).WithSummary("Xóa permission theo ID");
 
 
 
@@ -36,9 +36,9 @@ public static partial class PermissionEndpointExtensions
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
     }
 
-    private static async Task<IResult> HandleDeletePermission(Guid permissionId, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleDeletePermission([AsParameters] DeletePermissionDto request, [FromServices] IMediator mediator)
     {
-        var result = await mediator.Send(new DeletePermissionDto { Id = permissionId });
+        var result = await mediator.Send(request);
         return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Errors);
     }
 }

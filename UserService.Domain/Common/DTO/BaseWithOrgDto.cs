@@ -10,7 +10,7 @@ public record BaseWithOrgDto<TKey> : BaseDto<TKey>, IOrganizationScope
     public string? BranchId { get; set; }
 }
 
-public abstract record StatusBaseWithOrgDto<TKey> : BaseWithOrgDto<TKey>
+public abstract record StatusBaseWithOrgDto<TKey> : BaseWithOrgDto<TKey>, IStatus
 {
     public EStatus Status { get; set; } = EStatus.Draft;
 }

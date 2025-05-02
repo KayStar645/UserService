@@ -14,12 +14,12 @@ public abstract record AuditWithOrgEntity<TKey> : AuditBaseEntity<TKey>, IOrgani
     public string? BranchId { get; set; }
 }
 
-public abstract record SoftDeleteAuditableEntity<TKey> : AuditWithOrgEntity<TKey>
+public abstract record SoftDeleteAuditableEntity<TKey> : AuditWithOrgEntity<TKey>, ISoftDelete
 {
     public bool IsRemoved { get; set; } = false;
 }
 
-public abstract record StatusAuditableEntity<TKey> : AuditWithOrgEntity<TKey>
+public abstract record StatusAuditableEntity<TKey> : AuditWithOrgEntity<TKey>, IStatus
 {
     public EStatus Status { get; set; } = EStatus.Draft;
 }

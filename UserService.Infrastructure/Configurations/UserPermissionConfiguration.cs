@@ -11,9 +11,6 @@ public class UserPermissionConfiguration : IEntityTypeConfiguration<UserPermissi
         builder.ToTable(nameof(UserPermission));
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.IsRemoved).HasDefaultValue(false);
-        builder.HasQueryFilter(x => !x.IsRemoved);
-
         builder.HasIndex(x => new { x.UserId, x.PermissionId });
     }
 }

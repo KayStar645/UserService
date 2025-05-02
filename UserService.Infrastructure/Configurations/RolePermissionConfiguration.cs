@@ -11,9 +11,6 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
         builder.ToTable(nameof(RolePermission));
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.IsRemoved).HasDefaultValue(false);
-        builder.HasQueryFilter(x => !x.IsRemoved);
-
         builder.HasIndex(x => new { x.RoleId, x.PermissionId });
     }
 }

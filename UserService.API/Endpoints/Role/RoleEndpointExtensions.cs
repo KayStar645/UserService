@@ -13,9 +13,9 @@ public static partial class RoleEndpointExtensions
 
         group.MapGet("/", HandleListRoles).WithSummary("Lấy danh sách roles");
         group.MapGet("/{id:guid}", HandleGetRole).WithSummary("Chi tiết role");
-
-        group.MapPost("/create", HandleCreateRole).WithSummary("Tạo mới role");
-        group.MapDelete("/delete/{roleId:guid}", HandleDeleteRole).WithSummary("Xóa role theo ID");
+        group.MapPost("/", HandleCreateRole).WithSummary("Tạo mới role");
+        group.MapPut("/{id:guid}", HandleUpdateRole).WithSummary("Cập nhật role");
+        group.MapDelete("/delete/{id:guid}", HandleDeleteRole).WithSummary("Xóa role theo ID");
 
         return group;
     }
@@ -41,9 +41,15 @@ public static partial class RoleEndpointExtensions
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
     }
 
-    private static async Task<IResult> HandleDeleteRole(Guid roleId, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleUpdateRole([AsParameters] UpdateRoleDto request, [FromServices] IMediator mediator)
     {
-        var result = await mediator.Send(new DeleteRoleDto { Id = roleId });
+        var result = await mediator.Send(request);
+        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+    }
+
+    private static async Task<IResult> HandleDeleteRole([AsParameters] DeleteRoleDto request, [FromServices] IMediator mediator)
+    {
+        var result = await mediator.Send(request);
         return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Errors);
     }
 }

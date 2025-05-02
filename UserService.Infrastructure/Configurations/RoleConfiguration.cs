@@ -17,9 +17,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(x => x.CompanyId).HasMaxLength(36);
         builder.Property(x => x.BranchId).HasMaxLength(36);
 
-        builder.Property(x => x.IsRemoved).HasDefaultValue(false);
-        builder.HasQueryFilter(x => !x.IsRemoved);
-
         builder.HasIndex(x => new { x.CompanyId, x.BranchId });
         builder.HasIndex(x => new { x.Code, x.CompanyId, x.BranchId }).IsUnique();
     }
