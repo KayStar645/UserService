@@ -3,20 +3,20 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Features.Languages;
+using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Domain.Events.Async;
 using UserService.Domain.Events.FireAndForget;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Base.Commands.Create;
+namespace UserService.Application.Features.Base.Commands;
 
 
 // Khi override lại phải luôn gọi lại phương thức virtual cha
 public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result<TDto>>
     where TValidator : AbstractValidator<TRequest>
-    where TRequest : CreateCommand<TDto>, IRequest<Result<TDto>>
+    where TRequest : CreateCommandDto<TDto>, IRequest<Result<TDto>>
     where TEntity : BaseEntity<TKey>
 {
     private readonly IUnitOfWork<TKey> _unitOfWork;

@@ -5,18 +5,18 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Linq.Expressions;
-using UserService.Application.Features.Languages;
+using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Base.Queries.Get;
+namespace UserService.Application.Features.Base.Queries;
 
 
 // Khi override lại phải luôn gọi lại phương thức virtual cha
 public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result<TDto>>
         where TValidator : AbstractValidator<TRequest>
-        where TRequest : GetQuery<TKey, TDto>, IRequest<Result<TDto>>
+        where TRequest : GetQueryDto<TKey, TDto>, IRequest<Result<TDto>>
         where TEntity : BaseEntity<TKey>
 {
     private readonly IUnitOfWork<TKey> _unitOfWork;

@@ -4,19 +4,19 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Features.Languages;
+using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Domain.Events.Async;
 using UserService.Domain.Events.FireAndForget;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Base.Commands.Delete;
+namespace UserService.Application.Features.Base.Commands;
 
 // Khi override lại phải luôn gọi lại phương thức virtual cha
 public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEntity> : IRequestHandler<TRequest, Result>
     where TValidator : AbstractValidator<TRequest>
-    where TRequest : DeleteCommand<TKey>, IRequest<Result>
+    where TRequest : DeleteCommandDto<TKey>, IRequest<Result>
     where TEntity : BaseEntity<TKey>
 {
     private readonly IUnitOfWork<TKey> _unitOfWork;

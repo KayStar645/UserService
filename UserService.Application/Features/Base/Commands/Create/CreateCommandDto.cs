@@ -2,14 +2,14 @@
 using Ardalis.SharedKernel;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Features.Languages;
+using UserService.Application.Resources.Languages;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Base.Commands.Create;
+namespace UserService.Application.Features.Base.Commands;
 
-public abstract record CreateCommand<TDto> : ICommand<Result<TDto>>;
+public abstract record CreateCommandDto<TDto> : ICommand<Result<TDto>>;
 
-public class CreateCommandValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : CreateCommand<TDto>
+public class CreateCommandValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : CreateCommandDto<TDto>
 {
     public CreateCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer)
     {

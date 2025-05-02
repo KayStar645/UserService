@@ -6,18 +6,18 @@ using Microsoft.Extensions.Localization;
 using Sieve.Models;
 using Sieve.Services;
 using System.Linq.Expressions;
-using UserService.Application.Features.Languages;
+using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Base.Queries.List;
+namespace UserService.Application.Features.Base.Queries;
 
 
 // Khi override lại phải luôn gọi lại phương thức virtual cha
 public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result<PagedListResult<TDto>>>
         where TValidator : AbstractValidator<TRequest>
-        where TRequest : ListQuery<TDto>, IRequest<Result<PagedListResult<TDto>>>
+        where TRequest : ListQueryDto<TDto>, IRequest<Result<PagedListResult<TDto>>>
         where TEntity : BaseEntity<TKey>
 {
     private readonly IUnitOfWork<TKey> _unitOfWork;

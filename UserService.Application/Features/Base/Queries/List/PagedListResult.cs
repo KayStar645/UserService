@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using Microsoft.EntityFrameworkCore;
 
-namespace UserService.Application.Features.Base.Queries.List;
+namespace UserService.Application.Features.Base.Queries;
 
 public class PagedListResult<TEntity> : Result
 {

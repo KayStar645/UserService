@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Sieve.Services;
 using System.Reflection;
 using UserService.Application.Profiles;
+using UserService.Application.Services;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Entities;
 
@@ -14,6 +15,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddLocalization(options => options.ResourcesPath = "Resources");
+
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         services.AddSingleton(provider => new MapperConfiguration(cfg =>

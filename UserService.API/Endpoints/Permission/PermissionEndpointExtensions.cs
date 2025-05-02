@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Application.Features.Permissions.Commands.Create;
-using UserService.Application.Features.Permissions.Commands.Delete;
-using UserService.Application.Features.Permissions.Queries.List;
+using UserService.Application.Features.Permissions.Commands;
+using UserService.Application.Features.Permissions.Queries;
 
 namespace UserService.API.Endpoints.Permission;
 
@@ -15,7 +14,7 @@ public static partial class PermissionEndpointExtensions
         group.MapGet("/", HandleListPermissions).WithSummary("Lấy danh sách permissions");
 
         group.MapPost("/create", HandleCreatePermission).WithSummary("Tạo mới permission");
-        group.MapDelete("/delete/{id}", HandleDeletePermission).WithSummary("Xóa permission theo ID");
+        group.MapDelete("/delete/{permissionId:guid}", HandleDeletePermission).WithSummary("Xóa permission theo ID");
 
 
 
@@ -24,14 +23,14 @@ public static partial class PermissionEndpointExtensions
 
     // Handler methods
 
-    private static async Task<IResult> HandleListPermissions([AsParameters] ListPermission request, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleListPermissions([AsParameters] ListPermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
     }
 
 
-    private static async Task<IResult> HandleCreatePermission(CreatePermission request, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleCreatePermission(CreatePermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
@@ -39,7 +38,7 @@ public static partial class PermissionEndpointExtensions
 
     private static async Task<IResult> HandleDeletePermission(Guid id, [FromServices] IMediator mediator)
     {
-        var result = await mediator.Send(new DeletePermission { Id = id });
+        var result = await mediator.Send(new DeletePermissionDto { Id = id });
         return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Errors);
     }
 }
