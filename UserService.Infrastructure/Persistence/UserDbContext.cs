@@ -19,6 +19,8 @@ public class UserDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         modelBuilder.ConfigureSharedColumnOrder();
+
+        modelBuilder.HasDbFunction(() => PgSqlDbFunctions.Unaccent(default!));
     }
 
     public DbSet<User> User => Set<User>();

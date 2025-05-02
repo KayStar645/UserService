@@ -2,13 +2,18 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Sieve.Models;
 using Sieve.Services;
+using System.Globalization;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
 using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
+using UserService.Infrastructure.Common;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Base.Queries;
@@ -236,16 +241,31 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
         return propertyExpression;
     }
-    private Expression BuildCaseInsensitiveContains(Expression propertyExpression, string? searchValue)
+
+    private Expression BuildCaseInsensitiveContains(Expression propertyExpression, string searchValue)
     {
-        var toLower = typeof(string).GetMethod(nameof(string.ToLower), Type.EmptyTypes)!;
+        var unaccentMethod = typeof(PgSqlDbFunctions).GetMethod(
+            nameof(PgSqlDbFunctions.Unaccent),
+            BindingFlags.Static | BindingFlags.Public
+        ) ?? throw new InvalidOperationException("Unaccent method not found.");
 
-        var loweredProperty = Expression.Call(propertyExpression, toLower);
-        var loweredSearch = Expression.Constant((searchValue ?? "").ToLowerInvariant());
+        var toLowerMethod = typeof(string).GetMethod(nameof(string.ToLower), Type.EmptyTypes)
+            ?? throw new InvalidOperationException("string.ToLower method not found.");
 
-        var contains = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) })!;
+        // lower(unaccent(property))
+        var unaccentedProperty = Expression.Call(null, unaccentMethod, propertyExpression);
+        var loweredProperty = Expression.Call(unaccentedProperty, toLowerMethod);
 
-        return Expression.Call(loweredProperty, contains, loweredSearch);
+        // lower(unaccent("search"))
+        var searchExpr = Expression.Constant(searchValue, typeof(string));
+        var unaccentedSearch = Expression.Call(null, unaccentMethod, searchExpr);
+        var loweredSearch = Expression.Call(unaccentedSearch, toLowerMethod);
+
+        // property.Contains(search)
+        var containsMethod = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) })
+            ?? throw new InvalidOperationException("string.Contains method not found.");
+
+        return Expression.Call(loweredProperty, containsMethod, loweredSearch);
     }
 
     #endregion
