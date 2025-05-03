@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
-using UserService.Application.DTOs;
+using UserService.Domain.DTOs;
 using UserService.Application.Features.Base.Queries;
 using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
@@ -18,6 +18,6 @@ public class ListPermissionHandler : ListQueryHandler<Guid, ListPermissionValida
         ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
         : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer, pSieveProcessor)
     {
-        _search = new[] { "Code", "Name" };
+        _search = new[] { nameof(Permission.Code), nameof(Permission.Name) };
     }
 }

@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using UserService.Application.DTOs;
+using UserService.Domain.DTOs;
 using UserService.Application.Features.Base.Commands;
 using UserService.Application.Resources;
 using UserService.Application.Services.Interface;

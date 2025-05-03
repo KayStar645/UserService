@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using UserService.Domain.DTOs;
@@ -10,20 +9,14 @@ using UserService.Application.Services.Interface;
 using UserService.Domain.Entities;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Roles.Commands;
+namespace UserService.Application.Features.Users.Commands;
 
-public class UpdateRoleHandler : UpdateCommandHandler<Guid, UpdateRoleValidator, UpdateRoleDto, RoleDto, Role>
+public class CreateUserHandler : CreateCommandHandler<Guid, CreateUserValidator, CreateUserDto, UserDto, User>
 {
-    public UpdateRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
-        ILogger<UpdateCommandHandler<Guid, UpdateRoleValidator, UpdateRoleDto, RoleDto, Role>> pLogger,
+    public CreateUserHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<CreateCommandHandler<Guid, CreateUserValidator, CreateUserDto, UserDto, User>> pLogger,
         ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
         : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
     {
-
-    }
-
-    protected override IQueryable<Role> IncludeRelationsForUpdate(IQueryable<Role> query)
-    {
-        return query.Include(x => x.RolePermissions);
     }
 }

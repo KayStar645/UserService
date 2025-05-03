@@ -10,15 +10,16 @@ using UserService.Application.Services.Interface;
 using UserService.Domain.Entities;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Roles.Queries;
+namespace UserService.Application.Features.Users.Queries;
 
-public class ListRoleHandler : ListQueryHandler<Guid, ListRoleValidator, ListRoleDto, RoleDto, Role>
+public class ListUserHandler : ListQueryHandler<Guid, ListUserValidator, ListUserDto, UserDto, User>
 {
-    public ListRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
-        ILogger<ListQueryHandler<Guid, ListRoleValidator, ListRoleDto, RoleDto, Role>> pLogger,
+    public ListUserHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<ListQueryHandler<Guid, ListUserValidator, ListUserDto, UserDto, User>> pLogger,
         ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
         : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer, pSieveProcessor)
     {
-        _search = new[] { nameof(Role.Code), nameof(Role.Name) };
+        _search = new[] { nameof(User.Username), nameof(User.Email), nameof(User.PhoneNumber), nameof(User.FullName) };
+
     }
 }

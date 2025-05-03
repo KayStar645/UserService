@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using UserService.Application.DTOs;
+using UserService.Domain.DTOs;
 using UserService.Application.Features.Permissions.Commands;
 using UserService.Application.Features.Permissions.Queries;
 using UserService.Application.Features.Roles.Commands;

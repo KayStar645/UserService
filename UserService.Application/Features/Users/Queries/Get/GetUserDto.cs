@@ -5,15 +5,15 @@ using UserService.Application.Features.Base.Queries;
 using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Roles.Queries;
+namespace UserService.Application.Features.Users.Queries;
 
-public record GetRoleDto : GetQueryDto<Guid, RoleDto>
+public record GetUserDto : GetQueryDto<Guid, UserDto>
 {
 }
 
-public class GetRoleValidator : AbstractValidator<GetRoleDto>
+public class GetUserValidator : AbstractValidator<GetUserDto>
 {
-    public GetRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public GetUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(pSharedResourceLocalizer["NameRequired", "Id"]);

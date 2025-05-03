@@ -1,12 +1,11 @@
 ﻿using UserService.Domain.Common.DTO;
 using UserService.Domain.Enums;
 
-namespace UserService.Application.DTOs;
+namespace UserService.Domain.DTOs;
 
 public record UserDto : ActiveBaseWithOrgDto<Guid>
 {
     public required string Username { get; set; }
-    public required string PasswordHash { get; set; }
     public string? Email { get; set; }
     public bool IsEmailConfirmed { get; set; }
     public string? PhoneNumber { get; set; }

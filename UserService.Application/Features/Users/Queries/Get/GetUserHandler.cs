@@ -9,12 +9,12 @@ using UserService.Application.Services.Interface;
 using UserService.Domain.Entities;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Roles.Queries;
+namespace UserService.Application.Features.Users.Queries;
 
-public class GetRoleHandler : GetQueryHandler<Guid, GetRoleValidator, GetRoleDto, RoleDto, Role>
+public class GetUserHandler : GetQueryHandler<Guid, GetUserValidator, GetUserDto, UserDto, User>
 {
-    public GetRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
-        ILogger<GetQueryHandler<Guid, GetRoleValidator, GetRoleDto, RoleDto, Role>> pLogger,
+    public GetUserHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<GetQueryHandler<Guid, GetUserValidator, GetUserDto, UserDto, User>> pLogger,
         ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
         : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
     {

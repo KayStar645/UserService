@@ -5,17 +5,17 @@ using UserService.Application.Resources;
 using UserService.Domain.Common.Entity.Interfaces;
 using UserService.Infrastructure.Repositories.Interfaces;
 
-namespace UserService.Application.Features.Roles.Queries;
+namespace UserService.Application.Features.Users.Queries;
 
-public record ListRoleDto : ListQueryDto<RoleDto>, IOrganizationScope
+public record ListUserDto : ListQueryDto<UserDto>, IOrganizationScope
 {
     public string? CompanyId { get; set; }
     public string? BranchId { get; set; }
 }
 
-public class ListRoleValidator : ListQueryValidator<Guid, ListRoleDto, RoleDto>
+public class ListUserValidator : ListQueryValidator<Guid, ListUserDto, UserDto>
 {
-    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public ListUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
         : base(pUnitOfWork, pSharedResourceLocalizer)
     { }
 }

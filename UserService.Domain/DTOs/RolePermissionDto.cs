@@ -1,6 +1,6 @@
 ﻿using UserService.Domain.Common.DTO;
 
-namespace UserService.Application.DTOs;
+namespace UserService.Domain.DTOs;
 
 public record RolePermissionDto : SoftDeleteBaseDto<Guid>
 {

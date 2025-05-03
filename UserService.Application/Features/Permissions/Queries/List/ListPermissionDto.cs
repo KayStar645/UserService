@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
-using UserService.Application.DTOs;
+using UserService.Domain.DTOs;
 using UserService.Application.Features.Base.Queries;
 using UserService.Application.Resources;
 using UserService.Domain.Common.Entity.Interfaces;
