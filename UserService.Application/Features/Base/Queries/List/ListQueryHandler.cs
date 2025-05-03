@@ -6,13 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Sieve.Models;
 using Sieve.Services;
-using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using UserService.Application.Resources.Languages;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
+using UserService.Domain.Common.Entity.Interfaces;
 using UserService.Infrastructure.Common;
 using UserService.Infrastructure.Repositories.Interfaces;
 
@@ -117,6 +116,14 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     protected virtual IQueryable<TEntity> ApplyQuery(TRequest request, IQueryable<TEntity> query)
     {
+        if (request is IOrganizationScope r)
+        {
+            query = query.Cast<IOrganizationScope>()
+                         .Where(x => x.CompanyId == r.CompanyId &&
+                                     (string.IsNullOrWhiteSpace(r.BranchId) || x.BranchId == r.BranchId))
+                         .Cast<TEntity>();
+        }
+
         return query;
     }
 
