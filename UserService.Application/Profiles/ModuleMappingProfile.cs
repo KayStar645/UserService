@@ -5,6 +5,8 @@ using UserService.Application.Features.Permissions.Queries;
 using UserService.Application.Features.Roles.Commands;
 using UserService.Application.Features.Roles.Queries;
 using UserService.Domain.Entities;
+using UserService.Application.Features.Users.Queries;
+using UserService.Application.Features.Users.Commands;
 
 namespace UserService.Application.Profiles;
 
@@ -14,6 +16,13 @@ public class ModuleMappingProfile : Profile
     {
         // User
         CreateMap<User, UserDto>().ReverseMap();
+        CreateMap<User, ListUserDto>().ReverseMap();
+        CreateMap<User, CreateUserDto>().ReverseMap();
+        CreateMap<User, UpdateUserDto>().ReverseMap();
+
+        CreateMap<UserDto, GetUserDto>().ReverseMap();
+        CreateMap<UserDto, CreateUserDto>().ReverseMap();
+        CreateMap<UserDto, UpdateUserDto>().ReverseMap();
 
 
         // UserRole
