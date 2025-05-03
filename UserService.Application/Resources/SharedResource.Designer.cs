@@ -70,7 +70,7 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trường {0} với giá trị {1} không tồn tại!.
+        ///   Looks up a localized string similar to Trường ${0} với giá trị {1} không tồn tại!.
         /// </summary>
         public static string NameNotExistsValue {
             get {
@@ -79,7 +79,7 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trường {0} là bắt buộc!.
+        ///   Looks up a localized string similar to Trường ${0} là bắt buộc!.
         /// </summary>
         public static string NameRequired {
             get {

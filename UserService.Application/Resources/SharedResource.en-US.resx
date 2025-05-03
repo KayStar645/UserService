@@ -121,10 +121,10 @@
     <value>A system error has occurred. Please try again later!</value>
   </data>
   <data name="NameNotExistsValue" xml:space="preserve">
-    <value>Field {0} with value {1} does not exist!</value>
+    <value>Field ${0} with value {1} does not exist!</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
-    <value>Field {0} is required!</value>
+    <value>Field ${0} is required!</value>
   </data>
   <data name="ValidationError" xml:space="preserve">
     <value>Invalid request!</value>
