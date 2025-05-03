@@ -56,9 +56,7 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(5);
 
                     b.Property<bool>("IsRemoved")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(false)
                         .HasColumnOrder(3);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
@@ -121,9 +119,7 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(5);
 
                     b.Property<bool>("IsRemoved")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(false)
                         .HasColumnOrder(3);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
@@ -172,9 +168,7 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(false)
                         .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
@@ -323,9 +317,7 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(false)
                         .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
@@ -375,9 +367,7 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(false)
                         .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")

@@ -18,7 +18,7 @@ namespace UserService.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
                     BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -40,7 +40,7 @@ namespace UserService.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
                     BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -90,7 +90,7 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -122,7 +122,7 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -154,7 +154,7 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
