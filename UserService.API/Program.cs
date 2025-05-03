@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using System.Globalization;
 using UserService.API.Endpoints;
+using UserService.API.Swagger;
 using UserService.Application;
 using UserService.Infrastructure;
 
@@ -20,7 +22,13 @@ builder.Services.AddApplicationServices(builder.Configuration);
 // Cấu hình Swagger
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+        c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
+    });
+
 }
 
 var app = builder.Build();

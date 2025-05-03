@@ -11,6 +11,7 @@ public static partial class TestEndpointExtensions
         var group = app.MapGroup("/tests").WithTags("Tests");
 
         group.MapGet("/localizer", HandleGreeting).WithSummary("Kiểm tra biến dịch NameNotExistsValue");
+        //group.MapGet("/localizer?culture=en-US", HandleGreeting).WithSummary("Kiểm tra biến dịch NameNotExistsValue");
 
         return group;
     }
