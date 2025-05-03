@@ -10,7 +10,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Infrastructure.Common;

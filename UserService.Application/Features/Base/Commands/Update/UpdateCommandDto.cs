@@ -2,7 +2,7 @@
 using Ardalis.SharedKernel;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Base.Commands;

@@ -31,7 +31,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
 });
- 
+
 // Cấu hình các middleware
 if (app.Environment.IsDevelopment())
 {

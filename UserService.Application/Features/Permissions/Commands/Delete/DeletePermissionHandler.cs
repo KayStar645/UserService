@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Localization;
 using UserService.Application.Features.Base.Commands;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Entities;
 using UserService.Infrastructure.Repositories.Interfaces;

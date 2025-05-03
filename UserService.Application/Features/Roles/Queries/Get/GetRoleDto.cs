@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Localization;
 using UserService.Application.DTOs;
 using UserService.Application.Features.Base.Queries;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Roles.Queries;

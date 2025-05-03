@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 using UserService.Application.Features.Base.Commands;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Permissions.Commands;

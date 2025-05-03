@@ -4,7 +4,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Domain.Events.Async;
@@ -24,7 +24,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+    private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
     public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
@@ -103,7 +103,12 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
         if (findEntity == null)
         {
-            var x = _sharedLocalizer["test"];
+            var test = _sharedLocalizer["test"];
+            var x = test.Value;
+
+            var txt = _sharedLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty];
+            var a = txt.Value;
+            var b = String.Format(txt.Value, "vi-VN");
             throw new ApplicationException(_sharedLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
         }
 
