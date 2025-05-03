@@ -13,9 +13,9 @@ public record GetRoleDto : GetQueryDto<Guid, RoleDto>
 
 public class GetRoleValidator : AbstractValidator<GetRoleDto>
 {
-    public GetRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer)
+    public GetRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage(pValidatorLocalizer["NameRequired", "Id"]);
+            .NotEmpty().WithMessage(pSharedLocalizer["NameRequired", "Id"]);
     }
 }

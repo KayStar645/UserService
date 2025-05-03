@@ -12,7 +12,7 @@ public record ListRoleDto : ListQueryDto<RoleDto>
 
 public class ListRoleValidator : ListQueryValidator<Guid, ListRoleDto, RoleDto>
 {
-    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer)
-        : base(pUnitOfWork, pValidatorLocalizer)
+    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pSharedLocalizer)
     { }
 }

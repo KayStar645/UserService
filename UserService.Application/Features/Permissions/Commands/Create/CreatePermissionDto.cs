@@ -16,7 +16,7 @@ public record CreatePermissionDto : CreateCommandDto<PermissionDto>
 
 public class CreatePermissionValidator : CreateCommandValidator<Guid, CreatePermissionDto, PermissionDto>
 {
-    public CreatePermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer) : base(pUnitOfWork, pValidatorLocalizer)
+    public CreatePermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer) : base(pUnitOfWork, pSharedLocalizer)
     {
         
     }

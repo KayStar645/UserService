@@ -15,8 +15,8 @@ namespace UserService.Application.Features.Roles.Commands;
 public class UpdateRoleHandler : UpdateCommandHandler<Guid, UpdateRoleValidator, UpdateRoleDto, RoleDto, Role>
 {
     public UpdateRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pValidatorLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pSharedLocalizer)
     {
 
     }

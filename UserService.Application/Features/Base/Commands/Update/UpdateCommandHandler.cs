@@ -24,17 +24,17 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
     public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<SharedResource> pValidatorLocalizer)
+        IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pValidatorLocalizer;
+        _sharedLocalizer = pSharedLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -68,11 +68,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
     protected virtual async Task<Result<TDto>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _validatorLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<TDto>.Error(_validatorLocalizer["InternalServerError"]);
+            return Result<TDto>.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);
@@ -103,8 +103,8 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
         if (findEntity == null)
         {
-            var x = _validatorLocalizer["test"];
-            throw new ApplicationException(_validatorLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
+            var x = _sharedLocalizer["test"];
+            throw new ApplicationException(_sharedLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
         }
 
         return findEntity;

@@ -11,8 +11,8 @@ public record DeleteRoleDto : DeleteCommandDto<Guid>
 
 public class DeleteRoleValidator : DeleteCommandValidator<Guid, DeleteRoleDto>
 {
-    public DeleteRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer)
-        : base(pUnitOfWork, pValidatorLocalizer)
+    public DeleteRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pSharedLocalizer)
     {
 
     }

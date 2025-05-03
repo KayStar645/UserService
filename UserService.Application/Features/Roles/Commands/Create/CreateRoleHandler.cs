@@ -13,8 +13,8 @@ namespace UserService.Application.Features.Roles.Commands;
 public class CreateRoleHandler : CreateCommandHandler<Guid, CreateRoleValidator, CreateRoleDto, RoleDto, Role>
 {
     public CreateRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pValidatorLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pSharedLocalizer)
     {
     }
 }

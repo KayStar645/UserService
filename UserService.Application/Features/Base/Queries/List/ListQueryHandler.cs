@@ -29,7 +29,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
     protected readonly ISieveProcessor _sieveProcessor;
 
     protected string[] _fields = Array.Empty<string>();
@@ -37,14 +37,14 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<SharedResource> pValidatorLocalizer,
+        IStringLocalizer<SharedResource> pSharedLocalizer,
         ISieveProcessor pSieveProcessor)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pValidatorLocalizer;
+        _sharedLocalizer = pSharedLocalizer;
         _sieveProcessor = pSieveProcessor;
     }
 
@@ -71,11 +71,11 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     protected virtual async Task<Result<PagedListResult<TDto>>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _validatorLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<PagedListResult<TDto>>.Error(_validatorLocalizer["InternalServerError"]);
+            return Result<PagedListResult<TDto>>.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);

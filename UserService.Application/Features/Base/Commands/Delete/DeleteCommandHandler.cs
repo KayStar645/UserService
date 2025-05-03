@@ -23,17 +23,17 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
     public DeleteBaseCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<SharedResource> pValidatorLocalizer)
+        IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pValidatorLocalizer;
+        _sharedLocalizer = pSharedLocalizer;
     }
 
     public virtual async Task<Result> Handle(TRequest request, CancellationToken cancellationToken)
@@ -67,11 +67,11 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
 
     protected virtual async Task<Result> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _validatorLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result.Error(_validatorLocalizer["InternalServerError"]);
+            return Result.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);

@@ -25,7 +25,6 @@ if (builder.Environment.IsDevelopment())
 var app = builder.Build();
 
 var supportedCultures = new[] { new CultureInfo("vi-VN"), new CultureInfo("en-US") };
-
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture("vi-VN"),

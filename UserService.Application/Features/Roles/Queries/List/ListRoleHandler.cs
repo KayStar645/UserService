@@ -14,8 +14,8 @@ namespace UserService.Application.Features.Roles.Queries;
 public class ListRoleHandler : ListQueryHandler<Guid, ListRoleValidator, ListRoleDto, RoleDto, Role>
 {
     public ListRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<SharedResource> pValidatorLocalizer, ISieveProcessor pSieveProcessor)
-        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pValidatorLocalizer, pSieveProcessor)
+        IStringLocalizer<SharedResource> pSharedLocalizer, ISieveProcessor pSieveProcessor)
+        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pSharedLocalizer, pSieveProcessor)
     {
         _search = new[] { "Code", "Name" };
     }

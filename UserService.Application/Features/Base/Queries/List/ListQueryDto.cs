@@ -20,6 +20,6 @@ public abstract record ListQueryDto<TDto> : IQuery<Result<PagedListResult<TDto>>
 
 public class ListQueryValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : ListQueryDto<TDto>
 {
-    public ListQueryValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer)
+    public ListQueryValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
     { }
 }

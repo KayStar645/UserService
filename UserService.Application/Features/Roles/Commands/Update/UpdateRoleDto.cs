@@ -16,9 +16,9 @@ public record UpdateRoleDto : UpdateCommandDto<Guid, RoleDto>
 
 public class UpdateRoleValidator : AbstractValidator<UpdateRoleDto>
 {
-    public UpdateRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer pValidatorLocalizer)
+    public UpdateRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer pSharedLocalizer)
     {
         RuleFor(x => x)
-            .NotNull().WithMessage(pValidatorLocalizer["ValidationError"]);
+            .NotNull().WithMessage(pSharedLocalizer["ValidationError"]);
     }
 }

@@ -11,9 +11,9 @@ public abstract record CreateCommandDto<TDto> : ICommand<Result<TDto>>;
 
 public class CreateCommandValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : CreateCommandDto<TDto>
 {
-    public CreateCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pValidatorLocalizer)
+    public CreateCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         RuleFor(x => x)
-            .NotNull().WithMessage(pValidatorLocalizer["ValidationError"]);
+            .NotNull().WithMessage(pSharedLocalizer["ValidationError"]);
     }
 }
