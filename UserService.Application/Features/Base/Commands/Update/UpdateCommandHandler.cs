@@ -2,9 +2,9 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
@@ -24,22 +24,26 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     private readonly IUnitOfWork<TKey> _unitOfWork;
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
+    protected readonly ILogger<UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
     protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-    public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
-        IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
+        _logger = pLogger;
         _currentUserService = pCurrentUserService;
         _sharedResourceLocalizer = pSharedResourceLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("\nBEGIN: {HandlerName}\n", GetType().Name);
+
         using var transaction = await _unitOfWork.BeginTransactionAsync();
         try
         {
@@ -59,6 +63,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
             await transaction.CommitAsync(cancellationToken);
 
+            _logger.LogInformation("\nEND: {HandlerName}\n", GetType().Name);
             return Result<TDto>.Success(updateResult.dto);
         }
         catch (Exception ex)

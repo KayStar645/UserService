@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
@@ -22,22 +23,26 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     private readonly IUnitOfWork<TKey> _unitOfWork;
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
+    protected readonly ILogger<CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
     protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-    public CreateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
-        IMediator pMediator, ICurrentUserService pCurrentUserService,
-         IStringLocalizer<SharedResource> validatorLocalizer)
+    public CreateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> validatorLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
+        _logger = pLogger;
         _currentUserService = pCurrentUserService;
         _sharedResourceLocalizer = validatorLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("\nBEGIN: {HandlerName}\n", GetType().Name);
+
         using var transaction = await _unitOfWork.BeginTransactionAsync();
         try
         {
@@ -56,6 +61,8 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
             await EventAfterCreate(request, createResult.entity);
 
             await transaction.CommitAsync(cancellationToken);
+
+            _logger.LogInformation("\nEND: {HandlerName}\n", GetType().Name);
             return Result<TDto>.Created(createResult.dto);
         }
         catch (Exception ex)

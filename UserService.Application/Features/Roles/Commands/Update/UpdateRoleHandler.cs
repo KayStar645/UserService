@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using UserService.Application.DTOs;
 using UserService.Application.Features.Base.Commands;
 using UserService.Application.Resources;
@@ -14,8 +15,9 @@ namespace UserService.Application.Features.Roles.Commands;
 public class UpdateRoleHandler : UpdateCommandHandler<Guid, UpdateRoleValidator, UpdateRoleDto, RoleDto, Role>
 {
     public UpdateRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<UpdateCommandHandler<Guid, UpdateRoleValidator, UpdateRoleDto, RoleDto, Role>> pLogger,
         ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pSharedResourceLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
     {
 
     }

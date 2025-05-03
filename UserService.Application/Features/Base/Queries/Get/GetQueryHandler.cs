@@ -4,6 +4,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
@@ -22,25 +23,29 @@ public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>
     private readonly IUnitOfWork<TKey> _unitOfWork;
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
+    protected readonly ILogger<GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
     protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
     protected string[] _fields = Array.Empty<string>();
 
 
-    public GetQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
-        IMediator pMediator, ICurrentUserService pCurrentUserService,
-         IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public GetQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
+        _logger = pLogger;
         _currentUserService = pCurrentUserService;
         _sharedResourceLocalizer = pSharedResourceLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("\nBEGIN: {HandlerName}\n", GetType().Name);
+
         try
         {
             var validatorResult = await Validator(request);
@@ -51,6 +56,7 @@ public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>
 
             var detail = await HandlerGet(request, cancellationToken);
 
+             _logger.LogInformation("\nEND: {HandlerName}\n", GetType().Name);
             return detail.dto;
         }
         catch (Exception ex)

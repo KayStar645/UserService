@@ -4,6 +4,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Sieve.Models;
 using Sieve.Services;
 using System.Linq.Expressions;
@@ -27,6 +28,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     private readonly IUnitOfWork<TKey> _unitOfWork;
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
+    protected readonly ILogger<ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
     protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
     protected readonly ISieveProcessor _sieveProcessor;
@@ -34,14 +36,14 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     protected string[] _fields = Array.Empty<string>();
     protected string[] _search = Array.Empty<string>();
 
-    public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
-        IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<SharedResource> pSharedResourceLocalizer,
-        ISieveProcessor pSieveProcessor)
+    public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
+        _logger = pLogger;
         _currentUserService = pCurrentUserService;
         _sharedResourceLocalizer = pSharedResourceLocalizer;
         _sieveProcessor = pSieveProcessor;
@@ -49,6 +51,8 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     public virtual async Task<PagedListResult<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("\nBEGIN: {HandlerName}\n", GetType().Name);
+
         try
         {
             var validatorResult = await Validator(request);
@@ -60,6 +64,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
             var (result, listEntity) = await HandlerList(request, cancellationToken);
 
+            _logger.LogInformation("\nEND: {HandlerName}\n", GetType().Name);
             return result;
         }
         catch (Exception ex)

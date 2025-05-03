@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using UserService.Application.DTOs;
 using UserService.Application.Features.Base.Queries;
 using UserService.Application.Resources;
@@ -12,9 +13,10 @@ namespace UserService.Application.Features.Roles.Queries;
 
 public class GetRoleHandler : GetQueryHandler<Guid, GetRoleValidator, GetRoleDto, RoleDto, Role>
 {
-    public GetRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator, 
+    public GetRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
+        ILogger<GetQueryHandler<Guid, GetRoleValidator, GetRoleDto, RoleDto, Role>> pLogger,
         ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pCurrentUserService, pSharedResourceLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
     {
 
     }
