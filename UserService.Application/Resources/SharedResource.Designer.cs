@@ -61,11 +61,38 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} với giá trị {1} không tồn tại!.
+        ///   Looks up a localized string similar to Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau!.
+        /// </summary>
+        public static string publicServerError {
+            get {
+                return ResourceManager.GetString("publicServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} với giá trị {1} không tồn tại!.
         /// </summary>
         public static string NameNotExistsValue {
             get {
                 return ResourceManager.GetString("NameNotExistsValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} là bắt buộc!.
+        /// </summary>
+        public static string NameRequired {
+            get {
+                return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yêu cầu không hợp lệ!.
+        /// </summary>
+        public static string ValidationError {
+            get {
+                return ResourceManager.GetString("ValidationError", resourceCulture);
             }
         }
     }

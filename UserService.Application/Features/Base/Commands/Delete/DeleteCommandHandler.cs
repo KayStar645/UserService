@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Ardalis.Result;
+﻿using Ardalis.Result;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -96,7 +95,7 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
         var entity = await _unitOfWork.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
         if (entity == null)
-            throw new NotFoundException("Id", request?.Id?.ToString() ?? string.Empty);
+            throw new ApplicationException(_sharedResourceLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
 
         _unitOfWork.Set<TEntity>().Remove(entity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
