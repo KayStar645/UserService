@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using UserService.Application.DTOs;
 using UserService.Application.Features.Base.Queries;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Domain.Common.Entity.Interfaces;
 using UserService.Infrastructure.Repositories.Interfaces;
 
@@ -15,7 +15,7 @@ public record ListRoleDto : ListQueryDto<RoleDto>, IOrganizationScope
 
 public class ListRoleValidator : ListQueryValidator<Guid, ListRoleDto, RoleDto>
 {
-    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer)
-        : base(pUnitOfWork, pValidatorLocalizer)
+    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+        : base(pUnitOfWork, pSharedResourceLocalizer)
     { }
 }

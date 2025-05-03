@@ -2,7 +2,7 @@
 using Ardalis.SharedKernel;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Base.Commands;
@@ -14,9 +14,9 @@ public abstract record DeleteCommandDto<TKey> : ICommand<Result>
 
 public class DeleteCommandValidator<TKey, TRequest> : AbstractValidator<TRequest> where TRequest : DeleteCommandDto<TKey>
 {
-    public DeleteCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer)
+    public DeleteCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         RuleFor(x => x)
-            .NotNull().WithMessage(pValidatorLocalizer["ValidationError"]);
+            .NotNull().WithMessage(pSharedResourceLocalizer["ValidationError"]);
     }
 }

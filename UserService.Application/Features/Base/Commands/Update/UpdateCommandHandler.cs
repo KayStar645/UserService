@@ -4,7 +4,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Domain.Events.Async;
@@ -24,17 +24,17 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
     public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<LValidator> pValidatorLocalizer)
+        IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pValidatorLocalizer;
+        _sharedResourceLocalizer = pSharedResourceLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -68,11 +68,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
     protected virtual async Task<Result<TDto>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _validatorLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<TDto>.Error(_validatorLocalizer["InternalServerError"]);
+            return Result<TDto>.Error(_sharedResourceLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);
@@ -103,7 +103,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
         if (findEntity == null)
         {
-            throw new ApplicationException(_validatorLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
+            throw new ApplicationException(_sharedResourceLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
         }
 
         return findEntity;

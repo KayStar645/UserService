@@ -8,7 +8,7 @@ using Sieve.Models;
 using Sieve.Services;
 using System.Linq.Expressions;
 using System.Reflection;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Domain.Common.Entity.Interfaces;
@@ -28,7 +28,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
     protected readonly ISieveProcessor _sieveProcessor;
 
     protected string[] _fields = Array.Empty<string>();
@@ -36,14 +36,14 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-        IStringLocalizer<LValidator> pValidatorLocalizer,
+        IStringLocalizer<SharedResource> pSharedResourceLocalizer,
         ISieveProcessor pSieveProcessor)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pValidatorLocalizer;
+        _sharedResourceLocalizer = pSharedResourceLocalizer;
         _sieveProcessor = pSieveProcessor;
     }
 
@@ -70,11 +70,11 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     protected virtual async Task<Result<PagedListResult<TDto>>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _validatorLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<PagedListResult<TDto>>.Error(_validatorLocalizer["InternalServerError"]);
+            return Result<PagedListResult<TDto>>.Error(_sharedResourceLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);

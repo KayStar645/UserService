@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Linq.Expressions;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Application.Services.Interface;
 using UserService.Domain.Common.Entity;
 using UserService.Infrastructure.Repositories.Interfaces;
@@ -23,20 +23,20 @@ public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>
     protected readonly IMapper _mapper;
     protected readonly IMediator _mediator;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<LValidator> _validatorLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
     protected string[] _fields = Array.Empty<string>();
 
 
     public GetQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper,
         IMediator pMediator, ICurrentUserService pCurrentUserService,
-         IStringLocalizer<LValidator> pValidatorLocalizer)
+         IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _currentUserService = pCurrentUserService;
-        _validatorLocalizer = pValidatorLocalizer;
+        _sharedResourceLocalizer = pSharedResourceLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -61,11 +61,11 @@ public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>
 
     protected virtual async Task<Result<TDto>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _validatorLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<TDto>.Error(_validatorLocalizer["InternalServerError"]);
+            return Result<TDto>.Error(_sharedResourceLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);
@@ -99,7 +99,7 @@ public abstract class GetQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>
 
         if (findEntity == null)
         {
-            throw new ApplicationException(_validatorLocalizer["NameNotExistsValue", "Id", request.Id.ToString()]);
+            throw new ApplicationException(_sharedResourceLocalizer["NameNotExistsValue", "Id", request.Id.ToString()]);
         }
 
         var mapDto = _mapper.Map<TDto>(findEntity);

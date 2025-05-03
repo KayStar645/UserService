@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using UserService.Application.DTOs;
 using UserService.Application.Features.Base.Commands;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Roles.Commands;
@@ -17,7 +17,7 @@ public record CreateRoleDto : CreateCommandDto<RoleDto>
 
 public class CreateRoleValidator : CreateCommandValidator<Guid, CreateRoleDto, RoleDto>
 {
-    public CreateRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer) : base(pUnitOfWork, pValidatorLocalizer)
+    public CreateRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer) : base(pUnitOfWork, pSharedResourceLocalizer)
     {
 
     }

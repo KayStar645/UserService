@@ -2,7 +2,7 @@
 using Ardalis.SharedKernel;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Base.Commands;
@@ -15,9 +15,9 @@ public abstract record UpdateCommandDto<TKey, TDto> : ICommand<Result<TDto>>
 
 public class UpdateCommandValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : UpdateCommandDto<TKey, TDto>
 {
-    public UpdateCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer)
+    public UpdateCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         RuleFor(x => x)
-            .NotNull().WithMessage(pValidatorLocalizer["ValidationError"]);
+            .NotNull().WithMessage(pSharedResourceLocalizer["ValidationError"]);
     }
 }

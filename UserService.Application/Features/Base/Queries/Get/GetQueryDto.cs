@@ -2,7 +2,7 @@
 using Ardalis.SharedKernel;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using UserService.Application.Resources.Languages;
+using UserService.Application.Resources;
 using UserService.Infrastructure.Repositories.Interfaces;
 
 namespace UserService.Application.Features.Base.Queries;
@@ -16,9 +16,9 @@ public abstract record GetQueryDto<TKey, TDto> : IQuery<Result<TDto>>
 
 public class GetQueryValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : GetQueryDto<TKey, TDto>
 {
-    public GetQueryValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<LValidator> pValidatorLocalizer)
+    public GetQueryValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage(pValidatorLocalizer["NameRequired", "Id"]);
+            .NotEmpty().WithMessage(pSharedResourceLocalizer["NameRequired", "Id"]);
     }
 }
