@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 using System.Globalization;
 using UserService.API.Endpoints;
 using UserService.Application;
@@ -32,6 +33,9 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
 });
+
+var localizeOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(localizeOptions.Value);
 
 // Cấu hình các middleware
 if (app.Environment.IsDevelopment())

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sieve.Services;
+using System.Globalization;
 using System.Reflection;
 using UserService.Application.Profiles;
 using UserService.Application.Services;
@@ -15,7 +18,21 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddLocalization(options => options.ResourcesPath = "Resources");
+        // Đăng ký biến ngôn ngữ
+        services.AddLocalization();
+        services.Configure<RequestLocalizationOptions>(
+            options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("vi-VN"),
+                    new CultureInfo("en-US"),
+                };
+
+                options.DefaultRequestCulture = new RequestCulture(culture: "vi-VN", uiCulture: "vi-VN");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
