@@ -26,20 +26,20 @@ public static partial class PermissionEndpointExtensions
     private static async Task<IResult> HandleListPermissions([AsParameters] ListPermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 
 
     private static async Task<IResult> HandleCreatePermission([FromBody] CreatePermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleDeletePermission([AsParameters] DeletePermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok() : Results.BadRequest(result);
     }
 }
 

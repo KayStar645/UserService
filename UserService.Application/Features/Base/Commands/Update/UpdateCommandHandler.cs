@@ -2,6 +2,7 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using UserService.Application.Resources;
@@ -57,7 +58,8 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
             await EventAfterUpdate(request, oldEntity, updateResult.entity);
 
             await transaction.CommitAsync(cancellationToken);
-            return updateResult.dto;
+
+            return Result<TDto>.Success(updateResult.dto);
         }
         catch (Exception ex)
         {
@@ -114,7 +116,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
         return query;
     }
 
-    protected virtual async Task<(Result<TDto> dto, TEntity entity)> HandlerUpdate(TRequest request, TEntity oldEntity, CancellationToken cancellationToken)
+    protected virtual async Task<(TDto dto, TEntity entity)> HandlerUpdate(TRequest request, TEntity oldEntity, CancellationToken cancellationToken)
     {
         var newEntity = _mapper.Map<TEntity>(request);
         oldEntity.Update(newEntity);
@@ -123,7 +125,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
         var dto = _mapper.Map<TDto>(newEntity);
 
-        return (Result<TDto>.Success(dto), newEntity);
+        return (dto, newEntity);
     }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously

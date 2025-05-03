@@ -56,7 +56,7 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
             await EventAfterCreate(request, createResult.entity);
 
             await transaction.CommitAsync(cancellationToken);
-            return createResult.dto;
+            return Result<TDto>.Created(createResult.dto);
         }
         catch (Exception ex)
         {
@@ -99,14 +99,14 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
-    protected virtual async Task<(Result<TDto> dto, TEntity entity)> HandlerCreate(TEntity entity, CancellationToken cancellationToken)
+    protected virtual async Task<(TDto dto, TEntity entity)> HandlerCreate(TEntity entity, CancellationToken cancellationToken)
     {
         await _unitOfWork.Set<TEntity>().AddAsync(entity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         var dto = _mapper.Map<TDto>(entity);
 
-        return (Result<TDto>.Success(dto), entity);
+        return (dto, entity);
     }
 
 

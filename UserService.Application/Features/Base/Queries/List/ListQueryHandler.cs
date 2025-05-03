@@ -19,9 +19,9 @@ namespace UserService.Application.Features.Base.Queries;
 
 
 // Khi override lại phải luôn gọi lại phương thức virtual cha
-public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, Result<PagedListResult<TDto>>>
+public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity> : IRequestHandler<TRequest, PagedListResult<TDto>>
         where TValidator : AbstractValidator<TRequest>
-        where TRequest : ListQueryDto<TDto>, IRequest<Result<PagedListResult<TDto>>>
+        where TRequest : ListQueryDto<TDto>, IRequest<PagedListResult<TDto>>
         where TEntity : BaseEntity<TKey>
 {
     private readonly IUnitOfWork<TKey> _unitOfWork;
@@ -47,7 +47,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         _sieveProcessor = pSieveProcessor;
     }
 
-    public virtual async Task<Result<PagedListResult<TDto>>> Handle(TRequest request, CancellationToken cancellationToken)
+    public virtual async Task<PagedListResult<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
     {
         try
         {
@@ -68,7 +68,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         }
     }
 
-    protected virtual async Task<Result<PagedListResult<TDto>>> Validator(TRequest request)
+    protected virtual async Task<PagedListResult<TDto>> Validator(TRequest request)
     {
         var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
 
@@ -92,7 +92,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
             return Result<PagedListResult<TDto>>.Invalid(validationErrors);
         }
 
-        return Result<PagedListResult<TDto>>.Success(new PagedListResult<TDto>(Enumerable.Empty<TDto>(), 0, request.Page, 0));
+        return PagedListResult<TDto>.Success(new PagedListResult<TDto>(Enumerable.Empty<TDto>(), 0, request.Page, 0));
     }
 
     protected virtual async Task<(Result<PagedListResult<TDto>> result, IEnumerable<TEntity> listEntity)> HandlerList(TRequest request, CancellationToken cancellationToken)

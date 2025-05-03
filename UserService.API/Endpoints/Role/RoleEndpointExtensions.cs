@@ -26,33 +26,33 @@ public static partial class RoleEndpointExtensions
     private static async Task<IResult> HandleListRoles([AsParameters] ListRoleDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleGetRole([AsParameters] GetRoleDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result.Value) : Results.NotFound(result.Errors);
+        return result.IsSuccess ? Results.Ok(result) : Results.NotFound(result);
     }
 
 
     private static async Task<IResult> HandleCreateRole([FromBody] CreateRoleDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleUpdateRole([Required] Guid id, [FromBody] UpdateRoleDto request, [FromServices] IMediator mediator)
     {
         request.Id = id;
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleDeleteRole([AsParameters] DeleteRoleDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Errors);
+        return result.IsSuccess ? Results.Ok() : Results.BadRequest(result);
     }
 }
 
