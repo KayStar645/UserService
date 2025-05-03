@@ -55,7 +55,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
             if (!validatorResult.IsSuccess)
             {
                 var errorMessage = string.Join(", ", validatorResult.Errors.Select(e => e));
-                return Result<PagedListResult<TDto>>.Error(errorMessage);
+                return PagedListResult<TDto>.Error(errorMessage);
             }
 
             var (result, listEntity) = await HandlerList(request, cancellationToken);
@@ -64,7 +64,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         }
         catch (Exception ex)
         {
-            return Result<PagedListResult<TDto>>.Error(ex.Message);
+            return PagedListResult<TDto>.Error(ex.Message);
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
         if (validator == null)
         {
-            return Result<PagedListResult<TDto>>.Error(_sharedResourceLocalizer["InternalServerError"]);
+            return PagedListResult<TDto>.Error(_sharedResourceLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);
@@ -89,13 +89,13 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
                 })
                 .ToList();
 
-            return Result<PagedListResult<TDto>>.Invalid(validationErrors);
+            return (PagedListResult<TDto>)PagedListResult<TDto>.Invalid(validationErrors);
         }
 
         return PagedListResult<TDto>.Success(new PagedListResult<TDto>(Enumerable.Empty<TDto>(), 0, request.Page, 0));
     }
 
-    protected virtual async Task<(Result<PagedListResult<TDto>> result, IEnumerable<TEntity> listEntity)> HandlerList(TRequest request, CancellationToken cancellationToken)
+    protected virtual async Task<(PagedListResult<TDto> result, IEnumerable<TEntity> listEntity)> HandlerList(TRequest request, CancellationToken cancellationToken)
     {
         var query = _unitOfWork.Set<TEntity>().GetAll();
 
@@ -111,7 +111,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         var results = await query.GetPagedDataAsync(request.Page, request.PageSize);
         var mapResults = _mapper.Map<PagedListResult<TDto>>(results);
 
-        return (Result.Success(mapResults), results.Items);
+        return (mapResults, results.Items);
     }
 
     protected virtual IQueryable<TEntity> ApplyQuery(TRequest request, IQueryable<TEntity> query)
