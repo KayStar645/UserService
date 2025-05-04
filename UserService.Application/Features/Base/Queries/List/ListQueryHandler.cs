@@ -30,7 +30,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
     protected readonly IMediator _mediator;
     protected readonly ILogger<ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
     protected readonly ISieveProcessor _sieveProcessor;
 
     protected string[] _fields = Array.Empty<string>();
@@ -38,14 +38,14 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     public ListQueryHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer, ISieveProcessor pSieveProcessor)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _logger = pLogger;
         _currentUserService = pCurrentUserService;
-        _sharedResourceLocalizer = pSharedResourceLocalizer;
+        _sharedLocalizer = pSharedLocalizer;
         _sieveProcessor = pSieveProcessor;
     }
 
@@ -75,11 +75,11 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
 
     protected virtual async Task<PagedListResult<TDto>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return PagedListResult<TDto>.Error(_sharedResourceLocalizer["InternalServerError"]);
+            return PagedListResult<TDto>.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);

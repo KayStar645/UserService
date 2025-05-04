@@ -16,8 +16,8 @@ public class ListUserHandler : ListQueryHandler<Guid, ListUserValidator, ListUse
 {
     public ListUserHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<ListQueryHandler<Guid, ListUserValidator, ListUserDto, UserDto, User>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer, pSieveProcessor)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer, ISieveProcessor pSieveProcessor)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer, pSieveProcessor)
     {
         _search = new[] { nameof(User.Username), nameof(User.Email), nameof(User.PhoneNumber), nameof(User.FullName) };
 

@@ -23,7 +23,7 @@ public record CreateUserDto : CreateCommandDto<UserDto>
 
 public class CreateUserValidator : CreateCommandValidator<Guid, CreateUserDto, UserDto>
 {
-    public CreateUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer) : base(pUnitOfWork, pSharedResourceLocalizer)
+    public CreateUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer) : base(pUnitOfWork, pSharedLocalizer)
     {
 
     }

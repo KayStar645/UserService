@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using UserService.Domain.Common.Entity.Interfaces;
+﻿using UserService.Domain.Common.Entity.Interfaces;
 using UserService.Domain.Common.Interfaces;
 using UserService.Domain.Enums;
 
@@ -7,10 +6,7 @@ namespace UserService.Domain.Common.Entity;
 
 public abstract record AuditWithOrgEntity<TKey> : AuditBaseEntity<TKey>, IOrganizationScope
 {
-    [Column(TypeName = "VARCHAR(36)")]
     public string? CompanyId { get; set; }
-
-    [Column(TypeName = "VARCHAR(36)")]
     public string? BranchId { get; set; }
 }
 

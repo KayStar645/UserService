@@ -15,7 +15,7 @@ public record ListPermissionDto : ListQueryDto<PermissionDto>, IOrganizationScop
 
 public class ListPermissionValidator : ListQueryValidator<Guid, ListPermissionDto, PermissionDto>
 {
-    public ListPermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        :base(pUnitOfWork, pSharedResourceLocalizer)
+    public ListPermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
+        :base(pUnitOfWork, pSharedLocalizer)
     { }
 }

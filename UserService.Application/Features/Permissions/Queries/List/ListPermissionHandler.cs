@@ -15,8 +15,8 @@ public class ListPermissionHandler : ListQueryHandler<Guid, ListPermissionValida
 {
     public ListPermissionHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<ListQueryHandler<Guid, ListPermissionValidator, ListPermissionDto, PermissionDto, Permission>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer, pSieveProcessor)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer, ISieveProcessor pSieveProcessor)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer, pSieveProcessor)
     {
         _search = new[] { nameof(Permission.Code), nameof(Permission.Name) };
     }

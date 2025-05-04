@@ -61,6 +61,24 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Giá trị của {0} đã tồn tại!.
+        /// </summary>
+        public static string Exists {
+            get {
+                return ResourceManager.GetString("Exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} có giá trị {1} đã tồn tại!.
+        /// </summary>
+        public static string ExistsValue {
+            get {
+                return ResourceManager.GetString("ExistsValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau!.
         /// </summary>
         public static string publicServerError {
@@ -70,7 +88,16 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trường ${0} với giá trị {1} không tồn tại!.
+        ///   Looks up a localized string similar to Trường {0} phải nhỏ hơn hoặc bằng {1} kí tự!.
+        /// </summary>
+        public static string MaximumLength {
+            get {
+                return ResourceManager.GetString("MaximumLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} với giá trị {1} không tồn tại!.
         /// </summary>
         public static string NameNotExistsValue {
             get {
@@ -79,7 +106,7 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trường ${0} là bắt buộc!.
+        ///   Looks up a localized string similar to Trường {0} là bắt buộc!.
         /// </summary>
         public static string NameRequired {
             get {

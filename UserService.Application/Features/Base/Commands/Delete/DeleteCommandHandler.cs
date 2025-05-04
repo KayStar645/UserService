@@ -24,18 +24,18 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
     protected readonly IMediator _mediator;
     protected readonly ILogger<DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
     public DeleteBaseCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEntity>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _logger = pLogger;
         _currentUserService = pCurrentUserService;
-        _sharedResourceLocalizer = pSharedResourceLocalizer;
+        _sharedLocalizer = pSharedLocalizer;
     }
 
     public virtual async Task<Result> Handle(TRequest request, CancellationToken cancellationToken)
@@ -73,11 +73,11 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
 
     protected virtual async Task<Result> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result.Error(_sharedResourceLocalizer["InternalServerError"]);
+            return Result.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);
@@ -102,7 +102,7 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
         var entity = await _unitOfWork.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
         if (entity == null)
-            throw new ApplicationException(_sharedResourceLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
+            throw new ApplicationException(_sharedLocalizer["NameNotExistsValue", nameof(request.Id), request?.Id?.ToString() ?? string.Empty]);
 
         _unitOfWork.Set<TEntity>().Remove(entity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

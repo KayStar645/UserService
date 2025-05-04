@@ -14,8 +14,8 @@ public class DeleteRoleHandler : DeleteBaseCommandHandler<Guid, DeleteRoleValida
 {
     public DeleteRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<DeleteBaseCommandHandler<Guid, DeleteRoleValidator, DeleteRoleDto, Role>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer)
     {
     }
 }

@@ -19,16 +19,16 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
+                    CompanyId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
+                    BranchId = table.Column<string>(type: "text", nullable: true),
                     IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    CreatedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
@@ -41,16 +41,16 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CompanyId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
-                    BranchId = table.Column<string>(type: "VARCHAR(36)", maxLength: 36, nullable: true),
+                    CompanyId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
+                    BranchId = table.Column<string>(type: "text", nullable: true),
                     IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    CreatedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    Code = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
@@ -63,14 +63,14 @@ namespace UserService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CompanyId = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    BranchId = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CompanyId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
+                    BranchId = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    CreatedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Username = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
@@ -79,7 +79,7 @@ namespace UserService.Infrastructure.Migrations
                     PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
                     IsPhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     FullName = table.Column<string>(type: "character varying(190)", maxLength: 190, nullable: true),
-                    AvatarUrl = table.Column<string>(type: "character varying(190)", maxLength: 190, nullable: true),
+                    AvatarUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     DateOfBirth = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: true)
                 },
@@ -94,11 +94,11 @@ namespace UserService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    CreatedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     PermissionId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -126,11 +126,11 @@ namespace UserService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    CreatedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     PermissionId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -158,11 +158,11 @@ namespace UserService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IsRemoved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    CreatedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    CreatedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedByCode = table.Column<string>(type: "VARCHAR(36)", nullable: true),
-                    LastModifiedByUser = table.Column<string>(type: "VARCHAR(36)", nullable: true),
+                    LastModifiedByCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastModifiedByUser = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     LastModifiedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -217,6 +217,11 @@ namespace UserService.Infrastructure.Migrations
                 name: "IX_RolePermission_RoleId_PermissionId",
                 table: "RolePermission",
                 columns: new[] { "RoleId", "PermissionId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_CompanyId_BranchId",
+                table: "User",
+                columns: new[] { "CompanyId", "BranchId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",

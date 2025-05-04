@@ -25,7 +25,7 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly IMediator _mediator;
     protected readonly ILogger<CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
     public CreateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
@@ -36,7 +36,7 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
         _mediator = pMediator;
         _logger = pLogger;
         _currentUserService = pCurrentUserService;
-        _sharedResourceLocalizer = validatorLocalizer;
+        _sharedLocalizer = validatorLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -74,11 +74,11 @@ public abstract class CreateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
     protected virtual async Task<Result<TDto>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<TDto>.Error(_sharedResourceLocalizer["InternalServerError"]);
+            return Result<TDto>.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);

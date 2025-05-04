@@ -15,8 +15,8 @@ public class GetRoleHandler : GetQueryHandler<Guid, GetRoleValidator, GetRoleDto
 {
     public GetRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<GetQueryHandler<Guid, GetRoleValidator, GetRoleDto, RoleDto, Role>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer)
     {
 
     }

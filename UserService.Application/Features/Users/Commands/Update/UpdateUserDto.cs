@@ -23,9 +23,9 @@ public record UpdateUserDto : UpdateCommandDto<Guid, UserDto>
 
 public class UpdateUserValidator : AbstractValidator<UpdateUserDto>
 {
-    public UpdateUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer pSharedResourceLocalizer)
+    public UpdateUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer pSharedLocalizer)
     {
         RuleFor(x => x)
-            .NotNull().WithMessage(pSharedResourceLocalizer["ValidationError"]);
+            .NotNull().WithMessage(pSharedLocalizer["ValidationError"]);
     }
 }

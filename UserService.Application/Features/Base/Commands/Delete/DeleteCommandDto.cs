@@ -14,9 +14,9 @@ public abstract record DeleteCommandDto<TKey> : ICommand<Result>
 
 public class DeleteCommandValidator<TKey, TRequest> : AbstractValidator<TRequest> where TRequest : DeleteCommandDto<TKey>
 {
-    public DeleteCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public DeleteCommandValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         RuleFor(x => x)
-            .NotNull().WithMessage(pSharedResourceLocalizer["ValidationError"]);
+            .NotNull().WithMessage(pSharedLocalizer["ValidationError"]);
     }
 }

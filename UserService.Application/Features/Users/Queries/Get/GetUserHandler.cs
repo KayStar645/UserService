@@ -15,8 +15,8 @@ public class GetUserHandler : GetQueryHandler<Guid, GetUserValidator, GetUserDto
 {
     public GetUserHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<GetQueryHandler<Guid, GetUserValidator, GetUserDto, UserDto, User>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer)
     {
 
     }

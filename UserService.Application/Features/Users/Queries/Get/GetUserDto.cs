@@ -13,9 +13,9 @@ public record GetUserDto : GetQueryDto<Guid, UserDto>
 
 public class GetUserValidator : AbstractValidator<GetUserDto>
 {
-    public GetUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public GetUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage(pSharedResourceLocalizer["NameRequired", "Id"]);
+            .NotEmpty().WithMessage(pSharedLocalizer["NameRequired", "Id"]);
     }
 }

@@ -7,14 +7,9 @@ namespace UserService.Domain.Common.Entity;
 
 public abstract record AuditBaseEntity<TKey> : BaseEntity<TKey>, IAuditable
 {
-    [Column(TypeName = "VARCHAR(36)")]
     public string? CreatedByCode { get; set; }
-
-    [Column(TypeName = "VARCHAR(36)")]
     public string? LastModifiedByCode { get; set; }
-    [Column(TypeName = "VARCHAR(36)")]
     public string? CreatedByUser { get; set; }
-    [Column(TypeName = "VARCHAR(36)")]
     public string? LastModifiedByUser { get; set; }
     public DateTimeOffset? CreatedAt { get; set; }
     public DateTimeOffset? LastModifiedAt { get; set; }

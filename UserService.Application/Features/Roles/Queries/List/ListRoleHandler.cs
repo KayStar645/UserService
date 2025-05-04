@@ -16,8 +16,8 @@ public class ListRoleHandler : ListQueryHandler<Guid, ListRoleValidator, ListRol
 {
     public ListRoleHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<ListQueryHandler<Guid, ListRoleValidator, ListRoleDto, RoleDto, Role>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer, ISieveProcessor pSieveProcessor)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer, pSieveProcessor)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer, ISieveProcessor pSieveProcessor)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer, pSieveProcessor)
     {
         _search = new[] { nameof(Role.Code), nameof(Role.Name) };
     }

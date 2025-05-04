@@ -15,7 +15,7 @@ public record ListRoleDto : ListQueryDto<RoleDto>, IOrganizationScope
 
 public class ListRoleValidator : ListQueryValidator<Guid, ListRoleDto, RoleDto>
 {
-    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pSharedResourceLocalizer)
+    public ListRoleValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pSharedLocalizer)
     { }
 }

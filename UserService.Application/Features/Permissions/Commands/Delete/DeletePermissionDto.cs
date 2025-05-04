@@ -11,8 +11,8 @@ public record DeletePermissionDto : DeleteCommandDto<Guid>
 
 public class DeletePermissionValidator : DeleteCommandValidator<Guid, DeletePermissionDto>
 {
-    public DeletePermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pSharedResourceLocalizer)
+    public DeletePermissionValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pSharedLocalizer)
     {
         
     }

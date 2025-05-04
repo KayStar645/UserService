@@ -15,8 +15,8 @@ public class UpdateUserHandler : UpdateCommandHandler<Guid, UpdateUserValidator,
 {
     public UpdateUserHandler(IUnitOfWork<Guid> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<UpdateCommandHandler<Guid, UpdateUserValidator, UpdateUserDto, UserDto, User>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedResourceLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pMapper, pMediator, pLogger, pCurrentUserService, pSharedLocalizer)
     {
 
     }

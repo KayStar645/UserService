@@ -16,9 +16,9 @@ public abstract record GetQueryDto<TKey, TDto> : IQuery<Result<TDto>>
 
 public class GetQueryValidator<TKey, TRequest, TDto> : AbstractValidator<TRequest> where TRequest : GetQueryDto<TKey, TDto>
 {
-    public GetQueryValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+    public GetQueryValidator(IUnitOfWork<TKey> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage(pSharedResourceLocalizer["NameRequired", "Id"]);
+            .NotEmpty().WithMessage(pSharedLocalizer["NameRequired", "Id"]);
     }
 }

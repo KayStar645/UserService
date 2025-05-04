@@ -15,7 +15,7 @@ public record ListUserDto : ListQueryDto<UserDto>, IOrganizationScope
 
 public class ListUserValidator : ListQueryValidator<Guid, ListUserDto, UserDto>
 {
-    public ListUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
-        : base(pUnitOfWork, pSharedResourceLocalizer)
+    public ListUserValidator(IUnitOfWork<Guid> pUnitOfWork, IStringLocalizer<SharedResource> pSharedLocalizer)
+        : base(pUnitOfWork, pSharedLocalizer)
     { }
 }

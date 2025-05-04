@@ -26,18 +26,18 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
     protected readonly IMediator _mediator;
     protected readonly ILogger<UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> _logger;
     protected readonly ICurrentUserService _currentUserService;
-    protected readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
+    protected readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
     public UpdateCommandHandler(IUnitOfWork<TKey> pUnitOfWork, IMapper pMapper, IMediator pMediator,
         ILogger<UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEntity>> pLogger,
-        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedResourceLocalizer)
+        ICurrentUserService pCurrentUserService, IStringLocalizer<SharedResource> pSharedLocalizer)
     {
         _unitOfWork = pUnitOfWork;
         _mapper = pMapper;
         _mediator = pMediator;
         _logger = pLogger;
         _currentUserService = pCurrentUserService;
-        _sharedResourceLocalizer = pSharedResourceLocalizer;
+        _sharedLocalizer = pSharedLocalizer;
     }
 
     public virtual async Task<Result<TDto>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -75,11 +75,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
     protected virtual async Task<Result<TDto>> Validator(TRequest request)
     {
-        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedResourceLocalizer) as TValidator;
+        var validator = Activator.CreateInstance(typeof(TValidator), _unitOfWork, _sharedLocalizer) as TValidator;
 
         if (validator == null)
         {
-            return Result<TDto>.Error(_sharedResourceLocalizer["InternalServerError"]);
+            return Result<TDto>.Error(_sharedLocalizer["InternalServerError"]);
         }
 
         var validationResult = await validator.ValidateAsync(request);
@@ -110,7 +110,7 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
 
         if (findEntity == null)
         {
-            throw new ApplicationException(_sharedResourceLocalizer["NameNotExistsValue", "Id", request?.Id?.ToString() ?? string.Empty]);
+            throw new ApplicationException(_sharedLocalizer["NameNotExistsValue", nameof(request.Id), request?.Id?.ToString() ?? string.Empty]);
         }
 
         return findEntity;

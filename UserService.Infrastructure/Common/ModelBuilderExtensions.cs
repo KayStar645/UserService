@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Linq.Expressions;
+using UserService.Domain.Common.Constants;
+using UserService.Domain.Common.Entity.Interfaces;
 
 namespace UserService.Infrastructure.Common;
 
@@ -26,7 +29,6 @@ public static class ModelBuilderExtensions
                 ?.MakeGenericMethod(clrType);
 
             var entityBuilder = entityMethod?.Invoke(modelBuilder, null);
-
             if (entityBuilder == null) continue;
 
             // Gọi Property(x => x.IsRemoved)
@@ -72,6 +74,14 @@ public static class ModelBuilderExtensions
             "LastModifiedByCode", "LastModifiedByUser", "LastModifiedAt",
         };
 
+        var maxLengthFields = new Dictionary<string, int>
+        {
+            { "CreatedByCode", FieldLengthConstants.CodeMaxLength },
+            { "CreatedByUser", FieldLengthConstants.IdMaxLength },
+            { "LastModifiedByCode", FieldLengthConstants.CodeMaxLength },
+            { "LastModifiedByUser", FieldLengthConstants.IdMaxLength }
+        };
+
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             var props = entityType.GetProperties().ToList();
@@ -93,8 +103,20 @@ public static class ModelBuilderExtensions
                 {
                     p.SetColumnOrder(order++);
                 }
+                if (maxLengthFields.TryGetValue(name, out var maxLength))
+                {
+                    p.SetMaxLength(maxLength);
+                }
             }
         }
+    }
+
+    public static void ConfigureCompanyBranchIndex<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        where TEntity : class, IOrganizationScope
+    {
+        builder.Property(x => x.CompanyId).HasMaxLength(36);
+        builder.Property(x => x.CompanyId).HasMaxLength(36);
+        builder.HasIndex(x => new { x.CompanyId, x.BranchId });
     }
 }
 

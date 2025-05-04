@@ -30,17 +30,16 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(0);
 
                     b.Property<string>("BranchId")
-                        .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnType("text")
                         .HasColumnOrder(2);
 
                     b.Property<string>("Code")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("CompanyId")
                         .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
@@ -48,11 +47,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(5);
 
                     b.Property<bool>("IsRemoved")
@@ -64,11 +65,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(9);
 
                     b.Property<string>("LastModifiedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(7);
 
                     b.Property<string>("LastModifiedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(8);
 
                     b.Property<string>("Name")
@@ -94,17 +97,16 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(0);
 
                     b.Property<string>("BranchId")
-                        .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnType("text")
                         .HasColumnOrder(2);
 
                     b.Property<string>("Code")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("CompanyId")
                         .HasMaxLength(36)
-                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
@@ -112,11 +114,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(5);
 
                     b.Property<bool>("IsRemoved")
@@ -128,11 +132,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(9);
 
                     b.Property<string>("LastModifiedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(7);
 
                     b.Property<string>("LastModifiedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(8);
 
                     b.Property<string>("Name")
@@ -162,11 +168,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(2);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
@@ -178,11 +186,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(7);
 
                     b.Property<string>("LastModifiedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(5);
 
                     b.Property<string>("LastModifiedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(6);
 
                     b.Property<Guid>("PermissionId")
@@ -208,15 +218,16 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(0);
 
                     b.Property<string>("AvatarUrl")
-                        .HasMaxLength(190)
-                        .HasColumnType("character varying(190)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("BranchId")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnType("text")
                         .HasColumnOrder(2);
 
                     b.Property<string>("CompanyId")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
@@ -224,11 +235,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(5);
 
                     b.Property<DateTimeOffset?>("DateOfBirth")
@@ -264,11 +277,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(9);
 
                     b.Property<string>("LastModifiedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(7);
 
                     b.Property<string>("LastModifiedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(8);
 
                     b.Property<string>("PasswordHash")
@@ -296,6 +311,8 @@ namespace UserService.Infrastructure.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
+                    b.HasIndex("CompanyId", "BranchId");
+
                     b.ToTable("User", (string)null);
                 });
 
@@ -311,11 +328,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(2);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
@@ -327,11 +346,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(7);
 
                     b.Property<string>("LastModifiedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(5);
 
                     b.Property<string>("LastModifiedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(6);
 
                     b.Property<Guid>("PermissionId")
@@ -361,11 +382,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(4);
 
                     b.Property<string>("CreatedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(2);
 
                     b.Property<string>("CreatedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(3);
 
                     b.Property<bool>("IsRemoved")
@@ -377,11 +400,13 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnOrder(7);
 
                     b.Property<string>("LastModifiedByCode")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnOrder(5);
 
                     b.Property<string>("LastModifiedByUser")
-                        .HasColumnType("VARCHAR(36)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnOrder(6);
 
                     b.Property<Guid>("RoleId")
