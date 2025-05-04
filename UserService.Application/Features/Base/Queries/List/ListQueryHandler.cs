@@ -97,7 +97,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
             return (PagedListResult<TDto>)PagedListResult<TDto>.Invalid(validationErrors);
         }
 
-        return PagedListResult<TDto>.Success(new PagedListResult<TDto>(Enumerable.Empty<TDto>(), 0, request.Page, 0));
+        return PagedListResult<TDto>.Success(Enumerable.Empty<TDto>(), 0, request.Page, request.PageSize);
     }
 
     protected virtual async Task<(PagedListResult<TDto> result, IEnumerable<TEntity> listEntity)> HandlerList(TRequest request, CancellationToken cancellationToken)
@@ -116,7 +116,7 @@ public abstract class ListQueryHandler<TKey, TValidator, TRequest, TDto, TEntity
         var results = await query.GetPagedDataAsync(request.Page, request.PageSize);
         var mapResults = _mapper.Map<PagedListResult<TDto>>(results);
 
-        return (mapResults, results.Items);
+        return (mapResults, results.Value.Items);
     }
 
     protected virtual IQueryable<TEntity> ApplyQuery(TRequest request, IQueryable<TEntity> query)

@@ -3,15 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using UserService.Application.Features.Users.Commands;
 using UserService.Application.Features.Users.Queries;
+using ArdalisResult = Ardalis.Result;
 
 namespace UserService.API.Endpoints.User;
 
 public static partial class UserEndpointExtensions
 {
     private static readonly string _groupName = "/users";
+
     public static RouteGroupBuilder MapUserEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup($"{_groupName}").WithTags("Users");
+        var group = app.MapGroup(_groupName).WithTags("Users");
 
         group.MapGet("/", HandleListUsers).WithSummary("Lấy danh sách users");
         group.MapGet("/{id:guid}", HandleGetUser).WithSummary("Chi tiết user");
@@ -26,26 +28,50 @@ public static partial class UserEndpointExtensions
     private static async Task<IResult> HandleListUsers([AsParameters] ListUserDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+
+        return result.Status switch
+        {
+            ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
+            ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
+            _ => TypedResults.Problem("Unexpected error", statusCode: 500)
+        };
     }
 
     private static async Task<IResult> HandleGetUser([AsParameters] GetUserDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result) : Results.NotFound(result);
-    }
 
+        return result.Status switch
+        {
+            ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
+            ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            _ => TypedResults.Problem("Unexpected error", statusCode: 500)
+        };
+    }
 
     private static async Task<IResult> HandleCreateUser([FromBody] CreateUserDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Created($"{_groupName}/{result.Value.Id}", result) : Results.BadRequest(result);
+
+        return result.Status switch
+        {
+            ArdalisResult.ResultStatus.Created => TypedResults.Created($"{_groupName}/{result.Value?.Id}", result.Value),
+            ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
+            _ => TypedResults.Problem("Unexpected error", statusCode: 500)
+        };
     }
 
     private static async Task<IResult> HandleUpdateUser([Required] Guid id, [FromBody] UpdateUserDto request, [FromServices] IMediator mediator)
     {
         request.Id = id;
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+
+        return result.Status switch
+        {
+            ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
+            ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
+            _ => TypedResults.Problem("Unexpected error", statusCode: 500)
+        };
     }
 }

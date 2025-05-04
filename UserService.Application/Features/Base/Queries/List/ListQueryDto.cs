@@ -1,5 +1,4 @@
-﻿using Ardalis.Result;
-using Ardalis.SharedKernel;
+﻿using Ardalis.SharedKernel;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using UserService.Application.Resources;
@@ -12,8 +11,8 @@ public abstract record ListQueryDto<TDto> : IQuery<PagedListResult<TDto>>
     public string? Search { get; set; }
     public string? Filters { get; set; }
     public string? Sorts { get; set; }
-    public int? Page { get; set; } = 1;
-    public int? PageSize { get; set; } = 30;
+    public int Page { get; set; }
+    public int PageSize { get; set; }
     public string[]? Includes { get; set; }
     public string[]? Fields { get; set; }
 }

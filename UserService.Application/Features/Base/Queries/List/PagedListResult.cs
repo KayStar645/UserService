@@ -3,48 +3,53 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Application.Features.Base.Queries;
 
-public class PagedListResult<TEntity> : Result
+public class PagedData<T>
 {
-    public IEnumerable<TEntity> Items { get; }
-    public int TotalCount { get; }
-    public int Page { get; }
-    public int TotalPages { get; }
-    public int PageSize { get; }
+    public IEnumerable<T> Items { get; set; } = Enumerable.Empty<T>();
+    public int TotalCount { get; set; }
+    public int Page { get; set; }
+    public int TotalPages { get; set; }
+    public int PageSize { get; set; }
+
     public bool HasNextPage => Page < TotalPages;
     public bool HasPreviousPage => Page > 1;
+}
 
-    public PagedListResult(IEnumerable<TEntity> items, int totalCount, int? pPage = 1, int? pPageSize = 30)
+public class PagedListResult<T> : Result<PagedData<T>>
+{
+    private PagedListResult() { }
+
+    public static PagedListResult<T> Success(IEnumerable<T> items, int totalCount, int page = 1, int pageSize = 30)
     {
-        int page = pPage ?? 1;
-        int pageSize = pPageSize ?? 30;
-
-        Items = items;
-        TotalCount = totalCount;
-        Page = page;
-        PageSize = pageSize;
-        TotalPages = (int)Math.Ceiling((double)TotalCount / PageSize);
-    }
-
-    public static PagedListResult<TEntity> Success(IEnumerable<TEntity> items, int totalCount, int page = 1, int pageSize = 30)
-    {
-        return new PagedListResult<TEntity>(items, totalCount, page, pageSize)
+        var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+        var value = new PagedData<T>
         {
+            Items = items,
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize,
+            TotalPages = totalPages
+        };
+
+        return new PagedListResult<T>
+        {
+            Value = value,
             Status = ResultStatus.Ok
         };
     }
 
-    public static new PagedListResult<TEntity> Error(string errorMessage)
+    public static new PagedListResult<T> Error(string errorMessage)
     {
-        return new PagedListResult<TEntity>(Enumerable.Empty<TEntity>(), 0)
+        return new PagedListResult<T>
         {
             Status = ResultStatus.Error,
             Errors = new List<string> { errorMessage }
         };
     }
 
-    public static PagedListResult<TEntity> Invalid(IEnumerable<string> validationErrors)
+    public static PagedListResult<T> Invalid(IEnumerable<string> validationErrors)
     {
-        return new PagedListResult<TEntity>(Enumerable.Empty<TEntity>(), 0)
+        return new PagedListResult<T>
         {
             Status = ResultStatus.Invalid,
             Errors = validationErrors.ToList()
