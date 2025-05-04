@@ -21,8 +21,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.IsEmailConfirmed).HasDefaultValue(false);
         builder.Property(x => x.IsPhoneNumberConfirmed).HasDefaultValue(false);
 
-        //builder.Property(x => x.IsActive).HasDefaultValue(0);
-
         builder.HasIndex(x => x.Username).IsUnique();
         builder.HasIndex(x => x.Email).IsUnique();
         builder.HasIndex(x => x.PhoneNumber).IsUnique();

@@ -11,6 +11,9 @@ namespace UserService.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS \"unaccent\";");
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";");
+
             migrationBuilder.CreateTable(
                 name: "Permission",
                 columns: table => new
@@ -185,7 +188,8 @@ namespace UserService.Infrastructure.Migrations
                 name: "IX_Permission_Code_CompanyId_BranchId",
                 table: "Permission",
                 columns: new[] { "Code", "CompanyId", "BranchId" },
-                unique: true);
+                unique: true,
+                filter: "\"IsRemoved\" = false");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_CompanyId_BranchId",
@@ -196,7 +200,8 @@ namespace UserService.Infrastructure.Migrations
                 name: "IX_Role_Code_CompanyId_BranchId",
                 table: "Role",
                 columns: new[] { "Code", "CompanyId", "BranchId" },
-                unique: true);
+                unique: true,
+                filter: "\"IsRemoved\" = false");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_CompanyId_BranchId",

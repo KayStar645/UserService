@@ -18,6 +18,6 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
         builder.Property(x => x.BranchId).HasMaxLength(36);
 
         builder.HasIndex(x => new { x.CompanyId, x.BranchId });
-        builder.HasIndex(x => new { x.Code, x.CompanyId, x.BranchId }).IsUnique();
+        builder.HasIndex(x => new { x.Code, x.CompanyId, x.BranchId }).IsUnique().HasFilter("\"IsRemoved\" = false");
     }
 }

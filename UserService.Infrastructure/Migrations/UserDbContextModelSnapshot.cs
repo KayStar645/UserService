@@ -80,7 +80,8 @@ namespace UserService.Infrastructure.Migrations
                     b.HasIndex("CompanyId", "BranchId");
 
                     b.HasIndex("Code", "CompanyId", "BranchId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsRemoved\" = false");
 
                     b.ToTable("Permission", (string)null);
                 });
@@ -143,7 +144,8 @@ namespace UserService.Infrastructure.Migrations
                     b.HasIndex("CompanyId", "BranchId");
 
                     b.HasIndex("Code", "CompanyId", "BranchId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsRemoved\" = false");
 
                     b.ToTable("Role", (string)null);
                 });

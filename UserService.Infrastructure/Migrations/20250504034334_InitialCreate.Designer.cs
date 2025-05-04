@@ -12,7 +12,7 @@ using UserService.Infrastructure.Persistence;
 namespace UserService.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20250503143840_InitialCreate")]
+    [Migration("20250504034334_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -83,7 +83,8 @@ namespace UserService.Infrastructure.Migrations
                     b.HasIndex("CompanyId", "BranchId");
 
                     b.HasIndex("Code", "CompanyId", "BranchId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsRemoved\" = false");
 
                     b.ToTable("Permission", (string)null);
                 });
@@ -146,7 +147,8 @@ namespace UserService.Infrastructure.Migrations
                     b.HasIndex("CompanyId", "BranchId");
 
                     b.HasIndex("Code", "CompanyId", "BranchId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsRemoved\" = false");
 
                     b.ToTable("Role", (string)null);
                 });
