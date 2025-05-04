@@ -25,7 +25,6 @@ if (builder.Environment.IsDevelopment())
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
-        //c.OperationFilter<TimezoneHeaderOperationFilter>();
         c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
     });
 
@@ -39,7 +38,10 @@ app.UseRequestLocalization(localizeOptions.Value);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    });
 }
 
 app.UseHttpsRedirection();

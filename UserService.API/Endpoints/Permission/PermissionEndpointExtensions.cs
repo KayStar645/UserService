@@ -7,9 +7,10 @@ namespace UserService.API.Endpoints.Permission;
 
 public static partial class PermissionEndpointExtensions
 {
+    private static readonly string _groupName = "/permissions";
     public static RouteGroupBuilder MapPermissionEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/permissions").WithTags("Permissions");
+        var group = app.MapGroup($"{_groupName}").WithTags("Permissions");
 
         group.MapGet("/", HandleListPermissions).WithSummary("Lấy danh sách permissions");
 
@@ -33,13 +34,13 @@ public static partial class PermissionEndpointExtensions
     private static async Task<IResult> HandleCreatePermission([FromBody] CreatePermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+        return result.IsSuccess ? Results.Created($"{_groupName}/{result.Value.Id}", result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleDeletePermission([AsParameters] DeletePermissionDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok() : Results.BadRequest(result);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result);
     }
 }
 

@@ -8,9 +8,10 @@ namespace UserService.API.Endpoints.Role;
 
 public static partial class RoleEndpointExtensions
 {
+    private static readonly string _groupName = "/roles";
     public static RouteGroupBuilder MapRoleEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/roles").WithTags("Roles");
+        var group = app.MapGroup($"{_groupName}").WithTags("Roles");
 
         group.MapGet("/", HandleListRoles).WithSummary("Lấy danh sách roles");
         group.MapGet("/{id:guid}", HandleGetRole).WithSummary("Chi tiết role");
@@ -39,7 +40,7 @@ public static partial class RoleEndpointExtensions
     private static async Task<IResult> HandleCreateRole([FromBody] CreateRoleDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+        return result.IsSuccess ? Results.Created($"{_groupName}/{result.Value.Id}", result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleUpdateRole([Required] Guid id, [FromBody] UpdateRoleDto request, [FromServices] IMediator mediator)
@@ -52,7 +53,7 @@ public static partial class RoleEndpointExtensions
     private static async Task<IResult> HandleDeleteRole([AsParameters] DeleteRoleDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok() : Results.BadRequest(result);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result);
     }
 }
 

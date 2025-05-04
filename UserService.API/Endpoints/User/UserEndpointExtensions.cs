@@ -8,9 +8,10 @@ namespace UserService.API.Endpoints.User;
 
 public static partial class UserEndpointExtensions
 {
+    private static readonly string _groupName = "/users";
     public static RouteGroupBuilder MapUserEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/users").WithTags("Users");
+        var group = app.MapGroup($"{_groupName}").WithTags("Users");
 
         group.MapGet("/", HandleListUsers).WithSummary("Lấy danh sách users");
         group.MapGet("/{id:guid}", HandleGetUser).WithSummary("Chi tiết user");
@@ -38,7 +39,7 @@ public static partial class UserEndpointExtensions
     private static async Task<IResult> HandleCreateUser([FromBody] CreateUserDto request, [FromServices] IMediator mediator)
     {
         var result = await mediator.Send(request);
-        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+        return result.IsSuccess ? Results.Created($"{_groupName}/{result.Value.Id}", result) : Results.BadRequest(result);
     }
 
     private static async Task<IResult> HandleUpdateUser([Required] Guid id, [FromBody] UpdateUserDto request, [FromServices] IMediator mediator)
