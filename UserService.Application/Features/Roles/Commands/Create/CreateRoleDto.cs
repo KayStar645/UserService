@@ -16,7 +16,7 @@ public record CreateRoleDto : CreateCommandDto<RoleDto>
     public string? BranchId { get; set; }
     public string? Code { get; set; }
     public string? Name { get; set; }
-    public required IEnumerable<CreateRolePermissionDto> RolePermissions { get; set; }
+    public IEnumerable<CreateRolePermissionDto> RolePermissions { get; set; }
 }
 
 public class CreateRoleValidator : CreateCommandValidator<Guid, CreateRoleDto, RoleDto>
