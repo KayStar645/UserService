@@ -88,6 +88,15 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trường {0} không hợp lệ!.
+        /// </summary>
+        public static string InvalidValue {
+            get {
+                return ResourceManager.GetString("InvalidValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trường {0} phải nhỏ hơn hoặc bằng {1} kí tự!.
         /// </summary>
         public static string MaximumLength {

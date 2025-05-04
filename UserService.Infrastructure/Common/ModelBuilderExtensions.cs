@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Linq.Expressions;
 using UserService.Domain.Common.Constants;
 using UserService.Domain.Common.Entity.Interfaces;
+using UserService.Infrastructure.Common.Converters;
 
 namespace UserService.Infrastructure.Common;
 
@@ -117,6 +118,22 @@ public static class ModelBuilderExtensions
         builder.Property(x => x.CompanyId).HasMaxLength(36);
         builder.Property(x => x.CompanyId).HasMaxLength(36);
         builder.HasIndex(x => new { x.CompanyId, x.BranchId });
+    }
+
+    public static void UseUtcDateTimeOffset(this ModelBuilder modelBuilder)
+    {
+        var converter = new UtcDateTimeOffsetConverter();
+
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTimeOffset) || property.ClrType == typeof(DateTimeOffset?))
+                {
+                    property.SetValueConverter(converter);
+                }
+            }
+        }
     }
 }
 

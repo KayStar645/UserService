@@ -6,7 +6,7 @@ namespace UserService.Domain.Entities;
 public record User : ActiveAuditableEntity<Guid>
 {
     public required string Username { get; set; }
-    public required string PasswordHash { get; set; }
+    public string? PasswordHash { get; set; }
     public string? Email { get; set; }
     public bool IsEmailConfirmed { get; set; }
     public string? PhoneNumber { get; set; }

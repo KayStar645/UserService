@@ -9,7 +9,7 @@ namespace UserService.Application.Features.Base.Commands;
 
 public abstract record UpdateCommandDto<TKey, TDto> : ICommand<Result<TDto>>
 {
-    public required TKey Id { get; set; }
+    public TKey? Id { get; set; }
 }
 
 

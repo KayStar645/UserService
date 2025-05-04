@@ -126,6 +126,9 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau!</value>
   </data>
+  <data name="InvalidValue" xml:space="preserve">
+    <value>Trường {0} không hợp lệ!</value>
+  </data>
   <data name="MaximumLength" xml:space="preserve">
     <value>Trường {0} phải nhỏ hơn hoặc bằng {1} kí tự!</value>
   </data>

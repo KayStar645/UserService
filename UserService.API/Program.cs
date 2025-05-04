@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using System.Globalization;
 using UserService.API.Endpoints;
+using UserService.API.Middleware;
 using UserService.API.Swagger;
 using UserService.Application;
 using UserService.Infrastructure;
@@ -26,6 +25,7 @@ if (builder.Environment.IsDevelopment())
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
+        //c.OperationFilter<TimezoneHeaderOperationFilter>();
         c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
     });
 
@@ -33,19 +33,9 @@ if (builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
-var supportedCultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
-
-app.UseRequestLocalization(new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new RequestCulture("vi"),
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures
-});
-
 var localizeOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(localizeOptions.Value);
 
-// Cấu hình các middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -53,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseApplicationMiddlewares();
 
 app.RegisterAllEndpoints();
 
