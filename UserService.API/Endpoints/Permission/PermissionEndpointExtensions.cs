@@ -31,6 +31,7 @@ public static partial class PermissionEndpointExtensions
         {
             ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
             ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
+            ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };
     }
@@ -43,6 +44,7 @@ public static partial class PermissionEndpointExtensions
         {
             ArdalisResult.ResultStatus.Created => TypedResults.Created($"{_groupName}/{result.Value?.Id}", result.Value),
             ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
+            ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };
     }
@@ -55,6 +57,7 @@ public static partial class PermissionEndpointExtensions
         {
             ArdalisResult.ResultStatus.NoContent => TypedResults.NoContent(),
             ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };
     }

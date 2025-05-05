@@ -33,6 +33,7 @@ public static partial class UserEndpointExtensions
         {
             ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
             ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
+            ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };
     }
@@ -45,6 +46,7 @@ public static partial class UserEndpointExtensions
         {
             ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
             ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };
     }
