@@ -62,7 +62,7 @@ public abstract class DeleteBaseCommandHandler<TKey, TValidator, TRequest, TEnti
             await transaction.CommitAsync(cancellationToken);
 
             _logger.LogInformation("\nEND: {HandlerName}\n", GetType().Name);
-            return Result.Success();
+            return Result.NoContent();
         }
         catch (Exception ex)
         {
