@@ -15,7 +15,9 @@ public static class FieldLengthConstants
 
     public static class User
     {
-        public const int PasswordHashMaxLength = 36;
+        public const int PasswordMinLength = 3;
+        public const int PasswordMaxLength = 36;
+        public const int PasswordHashMaxLength = 200;
         public const int UsernameMaxLength = 36;
         public const int FullNameMaxLength = 190;
     }

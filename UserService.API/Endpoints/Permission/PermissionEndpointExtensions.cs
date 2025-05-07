@@ -57,6 +57,7 @@ public static partial class PermissionEndpointExtensions
         {
             ArdalisResult.ResultStatus.NoContent => TypedResults.NoContent(),
             ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
             ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };

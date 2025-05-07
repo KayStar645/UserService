@@ -79,6 +79,15 @@ namespace UserService.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mật khẩu không đúng!.
+        /// </summary>
+        public static string IncorrectPassword {
+            get {
+                return ResourceManager.GetString("IncorrectPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau!.
         /// </summary>
         public static string publicServerError {
@@ -102,6 +111,33 @@ namespace UserService.Application.Resources {
         public static string MaximumLength {
             get {
                 return ResourceManager.GetString("MaximumLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} phải lớn hơn hoặc bằng {1} kí tự!.
+        /// </summary>
+        public static string MinimumLength {
+            get {
+                return ResourceManager.GetString("MinimumLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} phải có giá trị bằng với trường {1}!.
+        /// </summary>
+        public static string MustMatch {
+            get {
+                return ResourceManager.GetString("MustMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trường {0} phải có giá trị khác trường {1}!.
+        /// </summary>
+        public static string MustNotEqual {
+            get {
+                return ResourceManager.GetString("MustNotEqual", resourceCulture);
             }
         }
         

@@ -47,6 +47,7 @@ public static partial class RoleEndpointExtensions
         {
             ArdalisResult.ResultStatus.Ok => TypedResults.Ok(result.Value),
             ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
             ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };
@@ -88,6 +89,7 @@ public static partial class RoleEndpointExtensions
         {
             ArdalisResult.ResultStatus.NoContent => TypedResults.NoContent(),
             ArdalisResult.ResultStatus.NotFound => TypedResults.NotFound(),
+            ArdalisResult.ResultStatus.Invalid => TypedResults.BadRequest(result.ValidationErrors),
             ArdalisResult.ResultStatus.Error => TypedResults.Conflict(result.Errors),
             _ => TypedResults.Problem("Unexpected error", statusCode: 500)
         };

@@ -123,6 +123,9 @@
   <data name="ExistsValue" xml:space="preserve">
     <value>Field {0} with value {1} already exists!</value>
   </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Password is incorrect!</value>
+  </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>A system error has occurred. Please try again later!</value>
   </data>
@@ -131,6 +134,15 @@
   </data>
   <data name="MaximumLength" xml:space="preserve">
     <value>Field {0} must be less than or equal to {1} characters!</value>
+  </data>
+  <data name="MinimumLength" xml:space="preserve">
+    <value>Field {0} must be greater than or equal to {1} characters!</value>
+  </data>
+  <data name="MustMatch" xml:space="preserve">
+    <value>Field {0} must have the same value as field {1}!</value>
+  </data>
+  <data name="MustNotEqual" xml:space="preserve">
+    <value>Field {0} must have a different value than field {1}!</value>
   </data>
   <data name="NameNotExistsValue" xml:space="preserve">
     <value>Field {0} with value {1} does not exist!</value>

@@ -123,6 +123,9 @@
   <data name="ExistsValue" xml:space="preserve">
     <value>Trường {0} có giá trị {1} đã tồn tại!</value>
   </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Mật khẩu không đúng!</value>
+  </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau!</value>
   </data>
@@ -131,6 +134,15 @@
   </data>
   <data name="MaximumLength" xml:space="preserve">
     <value>Trường {0} phải nhỏ hơn hoặc bằng {1} kí tự!</value>
+  </data>
+  <data name="MinimumLength" xml:space="preserve">
+    <value>Trường {0} phải lớn hơn hoặc bằng {1} kí tự!</value>
+  </data>
+  <data name="MustMatch" xml:space="preserve">
+    <value>Trường {0} phải có giá trị bằng với trường {1}!</value>
+  </data>
+  <data name="MustNotEqual" xml:space="preserve">
+    <value>Trường {0} phải có giá trị khác trường {1}!</value>
   </data>
   <data name="NameNotExistsValue" xml:space="preserve">
     <value>Trường {0} với giá trị {1} không tồn tại!</value>

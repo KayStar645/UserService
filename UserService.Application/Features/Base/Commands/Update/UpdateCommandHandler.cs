@@ -53,13 +53,13 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
                 return validatorResult;
             }
 
-            var oldEntity = await HandlerBeforeUpdate(request);
+            var (oldEntity, newRequest) = await HandlerBeforeUpdate(request);
 
-            var updateResult = await HandlerUpdate(request, oldEntity, cancellationToken);
+            var updateResult = await HandlerUpdate(newRequest, oldEntity, cancellationToken);
 
-            await HandlerAfterUpdate(request, oldEntity, updateResult.entity, updateResult.dto);
+            await HandlerAfterUpdate(newRequest, oldEntity, updateResult.entity, updateResult.dto);
 
-            await EventAfterUpdate(request, oldEntity, updateResult.entity);
+            await EventAfterUpdate(newRequest, oldEntity, updateResult.entity);
 
             await transaction.CommitAsync(cancellationToken);
 
@@ -97,10 +97,11 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
             return Result<TDto>.Invalid(validationErrors);
         }
 
-        return Result<TDto>.Success(_mapper.Map<TDto>(request));
+        return Result.Success();
     }
 
-    protected virtual async Task<TEntity> HandlerBeforeUpdate(TRequest request)
+    protected virtual IQueryable<TEntity> IncludeRelationsForUpdate(IQueryable<TEntity> query) => query;
+    protected virtual async Task<(TEntity, TRequest)> HandlerBeforeUpdate(TRequest request)
     {
         var query = _unitOfWork.Set<TEntity>().GetById(request.Id);
         
@@ -113,24 +114,24 @@ public abstract class UpdateCommandHandler<TKey, TValidator, TRequest, TDto, TEn
             throw new ApplicationException(_sharedLocalizer["NameNotExistsValue", nameof(request.Id), request?.Id?.ToString() ?? string.Empty]);
         }
 
-        return findEntity;
+        return (findEntity, request);
     }
 
-    protected virtual IQueryable<TEntity> IncludeRelationsForUpdate(IQueryable<TEntity> query)
-    {
-        return query;
-    }
-
-    protected virtual async Task<(TDto dto, TEntity entity)> HandlerUpdate(TRequest request, TEntity oldEntity, CancellationToken cancellationToken)
+    protected virtual void Update(TEntity oldEntity, TRequest request)
     {
         var newEntity = _mapper.Map<TEntity>(request);
         oldEntity.Update(newEntity);
+    }
+    protected virtual async Task<(TDto dto, TEntity entity)> HandlerUpdate(TRequest request, TEntity oldEntity, CancellationToken cancellationToken)
+    {
+        Update(oldEntity, request);
+
         _unitOfWork.Set<TEntity>().Update(oldEntity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var dto = _mapper.Map<TDto>(newEntity);
+        var dto = _mapper.Map<TDto>(oldEntity);
 
-        return (dto, newEntity);
+        return (dto, oldEntity);
     }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
