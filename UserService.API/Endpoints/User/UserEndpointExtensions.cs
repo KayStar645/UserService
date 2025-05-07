@@ -81,7 +81,7 @@ public static partial class UserEndpointExtensions
         };
     }
 
-    private static async Task<IResult> HandleChangePasswordUser([Required] Guid id, [FromBody] ChangePasswordPasswordDto request, [FromServices] IMediator mediator)
+    private static async Task<IResult> HandleChangePasswordUser([Required] Guid id, [FromBody] ChangePasswordDto request, [FromServices] IMediator mediator)
     {
         request.Id = id;
         var result = await mediator.Send(request);
